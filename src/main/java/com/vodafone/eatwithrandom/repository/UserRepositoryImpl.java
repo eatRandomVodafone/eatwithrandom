@@ -1,7 +1,7 @@
-package net.mvcj.microservices.users.repository.impl;
+package com.vodafone.eatwithrandom.repository;
 
-import net.mvcj.microservices.users.repository.UserRepository;
-import net.mvcj.microservices.users.model.User;
+import com.vodafone.eatwithrandom.repository.UserRepository;
+import com.vodafone.eatwithrandom.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
@@ -32,22 +32,30 @@ public class UserRepositoryImpl implements UserRepository{
         return optionalUsers;
 	}    
 
-    public Optional<User> findOne(String userId) {
-        User d = this.mongoOperations.findOne(new Query(Criteria.where("userId").is(userId)), User.class);
+    public Optional<User> findOne(String username) {
+        User d = this.mongoOperations.findOne(new Query(Criteria.where("username").is(username)), User.class);
         Optional<User> user = Optional.ofNullable(d);
         return user;
     }
 
     public User saveUser(User user) {
         this.mongoOperations.save(user);
-        return findOne(user.getUserId()).get();
+        return findOne(user.getUsername()).get();
     }
     
     public void updateUser(User user) {
         this.mongoOperations.save(user);
     }
 
-    public void deleteUser(String userId) {
-        this.mongoOperations.findAndRemove(new Query(Criteria.where("userId").is(userId)), User.class);
+    public void deleteUser(String username) {
+        this.mongoOperations.findAndRemove(new Query(Criteria.where("username").is(username)), User.class);
     }
+    
+    //Check username & password
+    public Optional<User> checkPassword (String username, String password) {
+        User d = this.mongoOperations.findOne(new Query(Criteria.where("username").is(username).and("password").is(password)), User.class);
+        Optional<User> user = Optional.ofNullable(d);
+        return user;
+    }
+
 }

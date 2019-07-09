@@ -1,6 +1,6 @@
-package net.mvcj.microservices.users.repository;
+package com.vodafone.eatwithrandom.repository;
 
-import net.mvcj.microservices.users.model.User;
+import com.vodafone.eatwithrandom.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,5 +39,13 @@ public interface UserRepository{
      * @param userId
      */
     public void deleteUser(String userId);
+    
+    /**
+     * 
+     * @param username
+     * @param password
+     * @return
+     */
+    public Optional<User> checkPassword (String username, String password);
 
 }
