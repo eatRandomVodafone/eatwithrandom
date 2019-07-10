@@ -14,7 +14,7 @@ public interface ReservaF2FRepository{
      * @param reservaF2F
      * @return
      */
-    public ReservaF2F createReservaF2F(ReservaF2F reserva);
+    public void createReservaF2F(ReservaF2F reserva);
 
     /**
      * Update a reservaF2F

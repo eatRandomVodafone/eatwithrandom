@@ -1,10 +1,6 @@
 package com.vodafone.eatwithrandom.repository;
 
 import com.vodafone.eatwithrandom.model.ReservaGrupal;
-import com.vodafone.eatwithrandom.model.User;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface ReservaGrupalRepository{
 
@@ -14,7 +10,7 @@ public interface ReservaGrupalRepository{
      * @param reservaGrupal
      * @return
      */
-    public ReservaGrupal createReservaGrupal(ReservaGrupal reserva);
+    public void createReservaGrupal(ReservaGrupal reserva);
 
     /**
      * Update a reservaGrupal

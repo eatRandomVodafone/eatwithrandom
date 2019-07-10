@@ -1,21 +1,19 @@
 package com.vodafone.eatwithrandom.repository;
 
-import com.vodafone.eatwithrandom.repository.UserRepository;
-import com.vodafone.eatwithrandom.model.Mesa;
-import com.vodafone.eatwithrandom.model.PoolGrupal;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
+
+import com.vodafone.eatwithrandom.model.PoolGrupal;
 
 @Repository
-public class PoolGrupalRepositoryImpl implements UserRepository{
+public class PoolGrupalRepositoryImpl implements PoolGrupalRepository{
 
     private final MongoOperations mongoOperations;
 

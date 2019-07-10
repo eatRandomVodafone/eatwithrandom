@@ -1,10 +1,8 @@
 package com.vodafone.eatwithrandom.repository;
 
-import com.vodafone.eatwithrandom.model.User;
-
-
 import java.util.List;
-import java.util.Optional;
+
+import com.vodafone.eatwithrandom.model.Mesa;
 
 public interface MesaRepository{
 
@@ -14,7 +12,7 @@ public interface MesaRepository{
      * @param user
      * @return
     */
-  Optional <List<User>> findAllPerDate(String hora);
+  List<Mesa> findAllPerDate(String hora);
 
 
 }

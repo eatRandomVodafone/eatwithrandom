@@ -13,7 +13,7 @@ public interface PoolGrupalRepository{
      * @param user
      * @return
      */
-    public void savePoolGrupal(User user);
+    public void savePoolGrupal(PoolGrupal pool);
 
     /**
      * Delete a user by id
