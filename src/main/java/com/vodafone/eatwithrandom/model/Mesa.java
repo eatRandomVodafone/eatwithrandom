@@ -20,7 +20,14 @@ public class Mesa {
     @NotNull    
     private int maxPersonasMesa;
     @NotNull    
-    private LocalDateTime[] horarios;
+    private String horarios;
+
+	public Mesa(String mesaId, int maxPersonasMesa, String horarios) {
+		this.mesaId = mesaId;
+		this.maxPersonasMesa = maxPersonasMesa;
+		this.horarios = horarios;
+	}
+
 	public String getMesaId() {
 		return mesaId;
 	}
@@ -33,10 +40,10 @@ public class Mesa {
 	public void setMaxPersonasMesa(int maxPersonasMesa) {
 		this.maxPersonasMesa = maxPersonasMesa;
 	}
-	public LocalDateTime[] getHorarios() {
+	public String getHorarios() {
 		return horarios;
 	}
-	public void setHorarios(LocalDateTime[] horarios) {
+	public void setHorarios(String horarios) {
 		this.horarios = horarios;
 	}  
 
