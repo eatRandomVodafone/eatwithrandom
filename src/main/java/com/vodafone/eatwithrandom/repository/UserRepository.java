@@ -1,6 +1,5 @@
 package com.vodafone.eatwithrandom.repository;
 
-import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.TempUser;
 import com.vodafone.eatwithrandom.model.User;
 

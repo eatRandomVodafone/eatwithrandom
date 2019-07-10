@@ -12,7 +12,7 @@ public interface PoolGrupalRepository{
 	 * @param userGroup
 	 * @return
 	 */
-	public User saveUserPoolGroup(PoolGrupal userGroup);
+	public PoolGrupal saveUserPoolGroup(PoolGrupal userGroup);
     
 	/**
 	 * 
@@ -26,6 +26,13 @@ public interface PoolGrupalRepository{
      * @param field
      * @return
      */
-    public Optional<User> findBy(String search, String field);
+    public Optional<PoolGrupal> findBy(String search, String field);
+    
+    /**
+     * 
+     * @param userId
+     * @return
+     */
+    public Optional<PoolGrupal> findUser(String userId);
     
 }

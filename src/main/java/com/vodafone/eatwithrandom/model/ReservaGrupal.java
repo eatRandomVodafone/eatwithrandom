@@ -3,6 +3,7 @@ package com.vodafone.eatwithrandom.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
 
@@ -18,9 +19,9 @@ public class ReservaGrupal implements Serializable{
 	@Id
     private String reservaGrupalId;
     @NotNull    
-    private LocalDateTime fecha;
+    private String fecha;
     @NotNull    
-    private String[] userId;
+    private ArrayList<String> userId;
     @NotNull    
     private String mesaId;
 	public String getReservaGrupalId() {
@@ -29,16 +30,16 @@ public class ReservaGrupal implements Serializable{
 	public void setReservaGrupalId(String reservaGrupalId) {
 		this.reservaGrupalId = reservaGrupalId;
 	}
-	public LocalDateTime getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
-	public void setFecha(LocalDateTime fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-	public String[] getUserId() {
+	public ArrayList<String> getUserId() {
 		return userId;
 	}
-	public void setUserId(String[] userId) {
+	public void setUserId(ArrayList<String> userId) {
 		this.userId = userId;
 	}
 	public String getIdMesa() {

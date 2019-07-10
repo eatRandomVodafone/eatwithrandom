@@ -27,7 +27,7 @@ public class PoolGrupalRepositoryImpl implements PoolGrupalRepository{
         this.mongoOperations = mongoOperations;
     }
     
-    public User saveUserPoolGroup(PoolGrupal userGroup) {
+    public PoolGrupal saveUserPoolGroup(PoolGrupal userGroup) {
         this.mongoOperations.save(userGroup);
         return findBy(userGroup.getUserId(),"userId").get();
     }
@@ -36,9 +36,15 @@ public class PoolGrupalRepositoryImpl implements PoolGrupalRepository{
     	this.mongoOperations.findAndRemove(new Query(Criteria.where("userId").is(userId)), PoolGrupal.class);
     }
     
-    public Optional<User> findBy(String search, String field) {
-        User d = this.mongoOperations.findOne(new Query(Criteria.where(field).is(search)), User.class);
-        Optional<User> user = Optional.ofNullable(d);
-        return user;
+    public Optional<PoolGrupal> findBy(String search, String field) {
+    	PoolGrupal d = this.mongoOperations.findOne(new Query(Criteria.where(field).is(search)), PoolGrupal.class);
+        Optional<PoolGrupal> poolGrupal = Optional.ofNullable(d);
+        return poolGrupal;
+    }
+    
+    public Optional<PoolGrupal> findUser(String userId) {
+    	PoolGrupal d = this.mongoOperations.findOne(new Query(Criteria.where("userId").is(userId)), PoolGrupal.class);
+    	Optional<PoolGrupal> poolGrupal = Optional.ofNullable(d);
+        return poolGrupal;
     }
 }
