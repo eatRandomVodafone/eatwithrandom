@@ -40,7 +40,7 @@ public class UserService {
     	//Check patron usuario
     	String jwt = jwtTokenProvider.createToken(user);
     	//Send mail
-    	userRepository.saveUser(user);
+    	userRepository.saveTempUser(jwt);
     } else {
       throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -48,7 +48,8 @@ public class UserService {
   
   public String postsignup(String token) {
       if (token != null) {
-          User user = jwtTokenProvider.getUser(token);
+    	  String jwt = userRepository.getTempUser(token);
+          User user = jwtTokenProvider.getUser(jwt);
           userRepository.saveUser(user);
           return token;
       } else {

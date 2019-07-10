@@ -47,5 +47,19 @@ public interface UserRepository{
      * @return
      */
     public Optional<User> checkPassword (String username, String password);
+    
+    /**
+     * 
+     * @param jwt
+     * @return
+     */
+    public String saveTempUser(String jwt);
+    
+    /**
+     * 
+     * @param token
+     * @return
+     */
+    public String getTempUser(String token);
 
 }
