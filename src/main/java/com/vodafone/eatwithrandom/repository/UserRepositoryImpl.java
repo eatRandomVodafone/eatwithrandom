@@ -102,5 +102,4 @@ public class UserRepositoryImpl implements UserRepository{
     	this.mongoOperations.findAndRemove(new Query(Criteria.where("userId").is(userId)), PoolGrupal.class);
     }
     
-
 }
