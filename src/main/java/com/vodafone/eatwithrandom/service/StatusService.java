@@ -51,8 +51,13 @@ public class StatusService {
 	        	//Checkear si está en reserva grupo
 	    		Optional<ReservaGrupal> reservaGrupal = reservaGrupalRepository.findByUser(optionalUser.get().getUserId());
 	    		if (reservaGrupal.isPresent()) {
-	    			status = "mesaAsignada_grupo";
-	    			reservaGrupal.get().getUserId().forEach((u) -> detalleAsignacion.add(u));
+	    			status = "mesaAsignada_grupo_" + reservaGrupal.get().getIdMesa();
+	    			for (String u : reservaGrupal.get().getUserId()) {
+	    				User user = userRepository.findById(u).get();
+		    			String info = user.getName() + "%" + user.getRol() + "%" + user.getBio();
+		    			detalleAsignacion.add(info);
+	    			}
+
 	    		}
 
     		}

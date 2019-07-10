@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import com.vodafone.eatwithrandom.model.Mesa;
+import com.vodafone.eatwithrandom.model.ReservaGrupal;
 import com.vodafone.eatwithrandom.repository.MesaRepository;
 
 @Repository
@@ -25,11 +26,8 @@ public class MesaRepositoryImpl implements MesaRepository{
         this.mongoOperations = mongoOperations;
     }
     
-    //Find all users
-    public List<Mesa> findAllPerDate(String hora) {
-    	List<Mesa> mesas = this.mongoOperations.find(new Query(Criteria.where("horarios").in(hora)), Mesa.class);
-        Optional<List<Mesa>> optionalMesa = Optional.ofNullable(mesas);
-        return optionalMesa.get();
-	}    
+    public void saveReserva(ReservaGrupal reserva) {
+    	this.mongoOperations.save(reserva);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.vodafone.eatwithrandom.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.vodafone.eatwithrandom.model.PoolGrupal;
@@ -34,5 +35,13 @@ public interface PoolGrupalRepository{
      * @return
      */
     public Optional<PoolGrupal> findUser(String userId);
+    
+
+    /**
+     * 
+     * @param hour
+     * @return
+     */
+    public Optional<List<PoolGrupal>> findByHour(String hour);
     
 }

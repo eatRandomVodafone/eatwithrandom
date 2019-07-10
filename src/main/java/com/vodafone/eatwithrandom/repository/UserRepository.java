@@ -1,5 +1,6 @@
 package com.vodafone.eatwithrandom.repository;
 
+import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.TempUser;
 import com.vodafone.eatwithrandom.model.User;
 
@@ -68,6 +69,14 @@ public interface UserRepository{
      * @param tempuser
      */
     public void deleteTempUser(TempUser tempuser);
+    
+    /**
+     * 
+     * @param userId
+     * @return
+     */
+    public Optional<User> findById(String userId);
+    
 
 
 }

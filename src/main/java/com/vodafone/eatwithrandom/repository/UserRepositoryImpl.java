@@ -42,6 +42,12 @@ public class UserRepositoryImpl implements UserRepository{
         Optional<User> user = Optional.ofNullable(d);
         return user;
     }
+    
+    public Optional<User> findById(String userId) {
+        User d = this.mongoOperations.findOne(new Query(Criteria.where("userId").is(userId)), User.class);
+        Optional<User> user = Optional.ofNullable(d);
+        return user;
+    }
 
     public User saveUser(User user) {
         this.mongoOperations.save(user);

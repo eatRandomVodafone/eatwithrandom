@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -46,5 +47,12 @@ public class PoolGrupalRepositoryImpl implements PoolGrupalRepository{
     	PoolGrupal d = this.mongoOperations.findOne(new Query(Criteria.where("userId").is(userId)), PoolGrupal.class);
     	Optional<PoolGrupal> poolGrupal = Optional.ofNullable(d);
         return poolGrupal;
+    }
+    
+    public Optional<List<PoolGrupal>> findByHour(String hour) {
+    	List<PoolGrupal> d = this.mongoOperations.find(new Query(Criteria.where("horaComida").is(hour)), PoolGrupal.class);
+    	Optional<List<PoolGrupal>> optionalPoolGrupals = Optional.ofNullable(d);
+        return optionalPoolGrupals;
+    
     }
 }

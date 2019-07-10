@@ -11,40 +11,33 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "mesa")
-@JsonPropertyOrder({"mesaId", "maxPersonasMesa", "horarios"})
-
 public class Mesa {
 	
 	@NotNull    
-    private String mesaId;
+    private String idMesa;
     @NotNull    
-    private int maxPersonasMesa;
+    private int max;
     @NotNull    
-    private String horarios;
+    private String horario;
 
-	public Mesa(String mesaId, int maxPersonasMesa, String horarios) {
-		this.mesaId = mesaId;
-		this.maxPersonasMesa = maxPersonasMesa;
-		this.horarios = horarios;
-	}
 
-	public String getMesaId() {
-		return mesaId;
+	public String getIdmesa() {
+		return idMesa;
 	}
-	public void setMesaId(String mesaId) {
-		this.mesaId = mesaId;
+	public void setIdmesa(String idMesa) {
+		this.idMesa = idMesa;
 	}
 	public int getMaxPersonasMesa() {
-		return maxPersonasMesa;
+		return max;
 	}
-	public void setMaxPersonasMesa(int maxPersonasMesa) {
-		this.maxPersonasMesa = maxPersonasMesa;
+	public void setMaxPersonasMesa(int max) {
+		this.max = max;
 	}
 	public String getHorarios() {
-		return horarios;
+		return horario;
 	}
-	public void setHorarios(String horarios) {
-		this.horarios = horarios;
+	public void setHorarios(String horario) {
+		this.horario = horario;
 	}  
 
 }
