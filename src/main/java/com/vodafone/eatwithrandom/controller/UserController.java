@@ -1,5 +1,7 @@
 package com.vodafone.eatwithrandom.controller;
 
+import java.util.Optional;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,9 @@ import com.vodafone.eatwithrandom.dto.UserResponseDTO;
 import com.vodafone.eatwithrandom.enums.Actions;
 import com.vodafone.eatwithrandom.enums.Qeue;
 import com.vodafone.eatwithrandom.model.User;
+import com.vodafone.eatwithrandom.repository.UserRepository;
+import com.vodafone.eatwithrandom.service.UserContextService;
 import com.vodafone.eatwithrandom.service.UserService;
-import com.vodafone.eatwithrandom.utils.UserModel;
-
 
 
 @RestController
@@ -29,6 +31,12 @@ public class UserController {
 	
 	@Autowired
     private UserService userService;
+	
+	@Autowired
+    private UserContextService userModel;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 
     @PostMapping("/signin")
@@ -73,24 +81,31 @@ public class UserController {
     	UserResponseDTO response = new UserResponseDTO();
     	String jwt = null;    	
     	
-    	User usuarioToken = UserModel.getCurrentUser();
-        
-    	if(action.equalsIgnoreCase(Actions.UP.toString())) {
-    		if(qeue.equalsIgnoreCase(Qeue.FACETOFACE.toString())) {	
-    			jwt = userService.insertQeueF2F(usuarioToken);
-    		}
-    		else if(action.equalsIgnoreCase(Qeue.GROUP.toString())) {
-    			jwt = userService.insertQeueGroup(usuarioToken, horario);
-    		}
+    	String username = userModel.getCurrentUser().getUsername();
+    	Optional<User> optionalUser = userRepository.findOne(username);
+    	
+    	if (optionalUser.isPresent()) {
+    		User user = optionalUser.get();
     		
-    	} else if(action.equalsIgnoreCase(Actions.DOWN.toString())) {
-    		if(qeue.equalsIgnoreCase(Qeue.FACETOFACE.toString())) {	
-    			jwt = userService.deleteQeueF2F(usuarioToken);
-    		}
-    		else if(action.equalsIgnoreCase(Qeue.GROUP.toString())) {
-    			jwt = userService.deleteQeueGroup(usuarioToken);
-    		}
+    		if(action.equalsIgnoreCase(Actions.UP.toString())) {
+        		if(qeue.equalsIgnoreCase(Qeue.FACETOFACE.toString())) {	
+        			jwt = userService.insertQeueF2F(user);
+        		}
+        		else if(action.equalsIgnoreCase(Qeue.GROUP.toString())) {
+        			jwt = userService.insertQeueGroup(user, horario);
+        		}
+        		
+        	} else if(action.equalsIgnoreCase(Actions.DOWN.toString())) {
+        		if(qeue.equalsIgnoreCase(Qeue.FACETOFACE.toString())) {	
+        			jwt = userService.deleteQeueF2F(user);
+        		}
+        		else if(action.equalsIgnoreCase(Qeue.GROUP.toString())) {
+        			jwt = userService.deleteQeueGroup(user);
+        		}
+        	}
     	}
+        
+    	
     	
     	response.setJwt(jwt);
         
