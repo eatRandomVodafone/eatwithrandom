@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EatWithRandomApp {
 
   public static void main(String[] args) {
-    SpringApplication.run(EatWithRandomApp.class, args);
+    SpringApplication.run(EatWithRandomApp.class, "--debug");
   }
   
 
