@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vodafone.eatwithrandom.dto.UserResponseDTO;
+import com.vodafone.eatwithrandom.enums.Actions;
+import com.vodafone.eatwithrandom.enums.Qeue;
 import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.service.UserService;
+import com.vodafone.eatwithrandom.utils.UserModel;
 
 
 
@@ -57,6 +60,41 @@ public class UserController {
         userService.postsignup(token);
         
         return ResponseEntity.ok().build();
+    }
+    
+    @PostMapping("/registerQeue")
+    public UserResponseDTO postsignup(
+   		 @RequestParam String qeue,
+   		 @RequestParam String action,
+   		 @RequestParam String horario,
+   		 @RequestParam String rol,
+   		 @RequestParam String area) {  
+    	
+    	UserResponseDTO response = new UserResponseDTO();
+    	String jwt = null;    	
+    	
+    	User usuarioToken = UserModel.getCurrentUser();
+        
+    	if(action.equalsIgnoreCase(Actions.UP.toString())) {
+    		if(qeue.equalsIgnoreCase(Qeue.FACETOFACE.toString())) {	
+    			jwt = userService.insertQeueF2F(usuarioToken);
+    		}
+    		else if(action.equalsIgnoreCase(Qeue.GROUP.toString())) {
+    			jwt = userService.insertQeueGroup(usuarioToken, horario);
+    		}
+    		
+    	} else if(action.equalsIgnoreCase(Actions.DOWN.toString())) {
+    		if(qeue.equalsIgnoreCase(Qeue.FACETOFACE.toString())) {	
+    			jwt = userService.deleteQeueF2F(usuarioToken);
+    		}
+    		else if(action.equalsIgnoreCase(Qeue.GROUP.toString())) {
+    			jwt = userService.deleteQeueGroup(usuarioToken);
+    		}
+    	}
+    	
+    	response.setJwt(jwt);
+        
+        return response;
     }
 
 }

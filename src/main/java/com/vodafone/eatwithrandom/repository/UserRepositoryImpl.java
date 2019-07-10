@@ -2,6 +2,7 @@ package com.vodafone.eatwithrandom.repository;
 
 import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.utils.RandomString;
+import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.TempUser;
 import com.vodafone.eatwithrandom.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,15 @@ public class UserRepositoryImpl implements UserRepository{
     	String token = tempuser.getToken();
     	
     	this.mongoOperations.findAndRemove(new Query(Criteria.where("token").is(token).and("jwt").is(jwt)), TempUser.class);
+    }
+    
+    public User saveUserPoolGroup(PoolGrupal userGroup) {
+        this.mongoOperations.save(userGroup);
+        return findOne(userGroup.getUserId()).get();
+    }
+    
+    public void deleteUserPoolGroup(String userId) {
+    	this.mongoOperations.findAndRemove(new Query(Criteria.where("userId").is(userId)), PoolGrupal.class);
     }
     
 

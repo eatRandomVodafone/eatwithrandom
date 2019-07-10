@@ -1,5 +1,6 @@
 package com.vodafone.eatwithrandom.repository;
 
+import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.TempUser;
 import com.vodafone.eatwithrandom.model.User;
 
@@ -57,6 +58,19 @@ public interface UserRepository{
     public String saveTempUser(String jwt);
     
     /**
+     * save a new user pool group
+     * @param user
+     * @return
+     */
+    public User saveUserPoolGroup(PoolGrupal userGroup);
+    
+    /**
+     * Delete a user pool group by id
+     * @param userId
+     */
+    public void deleteUserPoolGroup(String userId);
+
+    /**
      * 
      * @param token
      * @return
@@ -67,6 +81,7 @@ public interface UserRepository{
      * 
      * @param tempuser
      */
-    public void deleteTempUser (TempUser tempuser );
+    public void deleteTempUser(TempUser tempuser);
+
 
 }
