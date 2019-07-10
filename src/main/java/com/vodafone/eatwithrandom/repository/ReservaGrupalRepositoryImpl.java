@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,10 @@ public class ReservaGrupalRepositoryImpl implements ReservaGrupalRepository{
     }
     
     public Optional<ReservaGrupal> findByUser(String userId){
-    	ReservaGrupal d = this.mongoOperations.findOne(new Query(Criteria.where("userId").is(userId)), ReservaGrupal.class);
+    	Date now = new Date();
+		String day = (1900+now.getYear()) + "/" + (1+now.getMonth()) + "/" + now.getDate();
+		
+    	ReservaGrupal d = this.mongoOperations.findOne(new Query(Criteria.where("userId").is(userId).and("fecha").regex(day)), ReservaGrupal.class);
     	Optional<ReservaGrupal> reservaGrupal = Optional.ofNullable(d);
         return reservaGrupal;
 

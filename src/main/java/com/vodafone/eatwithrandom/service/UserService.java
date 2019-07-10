@@ -34,9 +34,12 @@ public class UserService {
 
 
   public String signin(String username, String password) {
-	  Optional<User> user = userRepository.checkPassword(username, password);
+	  Optional<User> user = userRepository.findOne(username);
 	  if (user.isPresent()) {
-		  return jwtTokenProvider.createToken(user.get());
+		  if (passwordEncoder.matches(password, user.get().getPassword()))
+			  return jwtTokenProvider.createToken(user.get());
+		  else
+			  throw new CustomException("Invalid password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 	  } 
       else
     	  throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
@@ -44,7 +47,7 @@ public class UserService {
 
   public void signup(User user) {
     if (!userRepository.findOne(user.getUsername()).isPresent()) {
-      //user.setPassword(passwordEncoder.encode(user.getPassword()));
+    	user.setPassword(passwordEncoder.encode(user.getPassword()));
     	//Check patron usuario
     	String jwt = jwtTokenProvider.createToken(user);
     	String token = userRepository.saveTempUser(jwt);
