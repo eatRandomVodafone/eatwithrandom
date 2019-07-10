@@ -13,8 +13,10 @@ import com.vodafone.eatwithrandom.model.Config;
 import com.vodafone.eatwithrandom.model.Mesa;
 import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.ReservaGrupal;
+import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.repository.ConfigRepository;
 import com.vodafone.eatwithrandom.repository.PoolGrupalRepository;
+import com.vodafone.eatwithrandom.repository.UserRepository;
 
 @Service
 public class AssignService {
@@ -24,6 +26,12 @@ public class AssignService {
 	
 	@Autowired
 	private ConfigRepository configRepository;
+	
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	public void asignarMesa() {
 		
@@ -69,6 +77,12 @@ public class AssignService {
 							}
 							reservaMesa.setUserId(usuariosReserva);
 							poolGrupalRepository.saveReserva(reservaMesa);
+							
+							//Envío mail a los usuarios asignados
+							for(String userId : reservaMesa.getUserId()) {
+								String email = userRepository.findById(userId).get().getUsername();
+						        emailService.sendEmail("Mesa asignada", "Se te ha asignado una mesa para comer. ¡Revisa en la app con quién comes hoy! ", email);
+							}
 						}
 					}
 					else {

@@ -14,13 +14,18 @@ endpoints:
 
 management:
     context-path: /admin
+    
 logging:
   level:
     org:
       springframework:
         web:
           client: DEBUG
-
+          
+mail:
+  remitente:  eatrandomvodafone
+  password:  Vodafone2019
+  
 # HTTP Server
 server:
   port: 4444   # HTTP (Tomcat) port

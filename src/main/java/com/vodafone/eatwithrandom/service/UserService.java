@@ -25,6 +25,9 @@ public class UserService {
 
   @Autowired
   private PasswordEncoder passwordEncoder;
+  
+  @Autowired
+  private EmailService emailService;
 
   @Autowired
   private JwtTokenProvider jwtTokenProvider;
@@ -44,8 +47,10 @@ public class UserService {
       //user.setPassword(passwordEncoder.encode(user.getPassword()));
     	//Check patron usuario
     	String jwt = jwtTokenProvider.createToken(user);
+    	String token = userRepository.saveTempUser(jwt);
     	//Send mail
-    	userRepository.saveTempUser(jwt);
+    	emailService.sendEmail("Confirmación de registro", "Estás a un paso de crear tu usuario. Confirma haciendo click aquí:"
+        		+ ":http://localhost:4444/eatwithrandom/postsignup/"+ token, user.getUsername());
     } else {
       throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
     }

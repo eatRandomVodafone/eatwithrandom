@@ -49,7 +49,7 @@ public class UserController {
     		@RequestBody User user) {
     	
     	userService.signup(user);
-    	
+
     	return ResponseEntity.ok().build();
     }
     

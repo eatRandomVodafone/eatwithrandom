@@ -34,10 +34,8 @@ public class RecoverPwdService {
         user.setPassword(newPwd);
 
         this.userRepository.saveUser(user);
-        
-    	String remitente = "eatrandomvodafone";  //Para la dirección nomcuenta@gmail.com
-        
-        emailService.sendEmail("Reseteo de contraseña", "Tu nueva contraseña es: " + newPwd, remitente);
+                
+        emailService.sendEmail("Reseteo de contraseña", "Tu nueva contraseña es: " + newPwd, email);
 
         return newPwd;
     }

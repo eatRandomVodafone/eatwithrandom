@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()//
         .antMatchers(HttpMethod.POST, "/eatwithrandom/signin").permitAll()//
         .antMatchers(HttpMethod.POST, "/eatwithrandom/signup").permitAll()//
-        .antMatchers(HttpMethod.GET, "/eatwithrandom/recoverpwd/**").permitAll()//
+        .antMatchers(HttpMethod.GET, "/eatwithrandom/recoverpwd").permitAll()//
         .antMatchers(HttpMethod.GET, "/eatwithrandom/postsignup/**").permitAll()//
         .antMatchers(HttpMethod.GET, "/eatwithrandom/asignar").permitAll()//
         .antMatchers(HttpMethod.GET, "/eatwithrandom/config").permitAll()//
