@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.vodafone.eatwithrandom.utils.UserModel;
-
 
 @Service
 public class RecoverPwdService {
@@ -17,6 +15,9 @@ public class RecoverPwdService {
     private UserRepositoryImpl userRepository;
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
  
+    
+    @Autowired
+    private UserContextService userModel;
 
     public String generatePassword() {
         StringBuilder builder = new StringBuilder();
@@ -27,7 +28,7 @@ public class RecoverPwdService {
         }
         String newPwd = builder.toString();
         
-        String username = UserModel.getCurrentUser().getUsername();
+        String username = userModel.getCurrentUser().getUsername();
 
         User user = this.userRepository.findOne(username).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
         user.setPassword(newPwd);
