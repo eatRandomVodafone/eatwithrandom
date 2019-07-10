@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.vodafone.eatwithrandom.model.Config;
@@ -33,6 +34,7 @@ public class AssignService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Scheduled(cron = "0 0 12 * * MON-FRI")
 	public void asignarMesa() {
 		
 		Date now = new Date();
