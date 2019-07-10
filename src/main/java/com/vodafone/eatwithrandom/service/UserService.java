@@ -1,5 +1,7 @@
 package com.vodafone.eatwithrandom.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,20 +26,34 @@ public class UserService {
 
 
   public String signin(String username, String password) {
-	  if (userRepository.checkPassword(username, password).isPresent())
-    	  return jwtTokenProvider.createToken(username);
+	  Optional<User> user = userRepository.checkPassword(username, password);
+	  if (user.isPresent()) {
+		  return jwtTokenProvider.createToken(user.get());
+	  } 
       else
     	  throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
-  public String signup(User user) {
-    if (!userRepository.findOne(user.getName()).isPresent()) {
+  public void signup(User user) {
+    if (!userRepository.findOne(user.getUsername()).isPresent()) {
       //user.setPassword(passwordEncoder.encode(user.getPassword()));
-      userRepository.saveUser(user);
-      return jwtTokenProvider.createToken(user.getName());
+    	//Check patron usuario
+    	String jwt = jwtTokenProvider.createToken(user);
+    	//Send mail
+    	userRepository.saveUser(user);
     } else {
       throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
     }
+  }
+  
+  public String postsignup(String token) {
+      if (token != null) {
+          User user = jwtTokenProvider.getUser(token);
+          userRepository.saveUser(user);
+          return token;
+      } else {
+          throw new CustomException("Token dont exist", HttpStatus.UNPROCESSABLE_ENTITY);
+      }
   }
 
   /*public void delete(String name) {

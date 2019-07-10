@@ -23,6 +23,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import com.vodafone.eatwithrandom.exception.CustomException;
+import com.vodafone.eatwithrandom.model.User;
 
 @Component
 public class JwtTokenProvider {
@@ -45,10 +46,28 @@ public class JwtTokenProvider {
     secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
   }
 
-  public String createToken(String username) {
+  public String createToken(User user) {
 
-    Claims claims = Jwts.claims().setSubject(username);
-    //claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));
+    Claims claims = Jwts.claims().setSubject(user.getUsername());
+    claims.put("usr", user.getUsername());
+    claims.put("sec", user.getPassword());
+    claims.put("name", user.getName());
+    claims.put("area", user.getArea());
+    claims.put("rol", user.getRol());
+    claims.put("bio", user.getBio());
+    
+    if (user.getAficiones() != null && user.getAficiones().length > 0) {
+    	claims.put("aficiones", user.getAficiones());
+    }
+    if (user.getAlergias() != null && user.getAlergias().length > 0) {
+    	claims.put("alergias", user.getAlergias());
+    }
+    if (user.getHoraPrefer() != null) {
+    	claims.put("horaPrefer", user.getHoraPrefer());
+    }
+    if (user.getIdiomaPrefer() != null) {
+    	claims.put("idiomaPrefer", user.getIdiomaPrefer());
+    }
 
     Date now = new Date();
     Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -68,6 +87,33 @@ public class JwtTokenProvider {
 
   public String getUsername(String token) {
     return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+  }
+  
+  public User getUser(String token) {        
+      User user = new User();
+      Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+      
+      user.setUsername(claims.get("usr").toString());
+      user.setUsername(claims.get("sec").toString());
+      user.setUsername(claims.get("name").toString());
+      user.setUsername(claims.get("area").toString());
+      user.setUsername(claims.get("rol").toString());
+      user.setUsername(claims.get("bio").toString());
+      
+      /*if (claims.get("aficiones") != null) {
+    	  user.setAficiones(claims.get("aficiones").toString());
+      }
+      if (user.getAlergias() != null && user.getAlergias().length > 0) {
+      	claims.put("alergias", user.getAlergias());
+      }
+      if (user.getHoraPrefer() != null) {
+      	claims.put("horaPrefer", user.getHoraPrefer());
+      }
+      if (user.getIdiomaPrefer() != null) {
+      	claims.put("idiomaPrefer", user.getIdiomaPrefer());
+      }*/
+      
+      return user;
   }
 
   public String resolveToken(HttpServletRequest req) {
