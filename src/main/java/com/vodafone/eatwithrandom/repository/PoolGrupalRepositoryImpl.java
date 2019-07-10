@@ -3,6 +3,8 @@ package com.vodafone.eatwithrandom.repository;
 import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.model.Mesa;
 import com.vodafone.eatwithrandom.model.PoolGrupal;
+import com.vodafone.eatwithrandom.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
@@ -15,7 +17,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 @Repository
-public class PoolGrupalRepositoryImpl implements UserRepository{
+public class PoolGrupalRepositoryImpl implements PoolGrupalRepository{
 
     private final MongoOperations mongoOperations;
 
@@ -26,19 +28,18 @@ public class PoolGrupalRepositoryImpl implements UserRepository{
         this.mongoOperations = mongoOperations;
     }
     
-    public void savePoolGrupal(PoolGrupal pool) {
-        this.mongoOperations.save(pool);
-
+    public User saveUserPoolGroup(PoolGrupal userGroup) {
+        this.mongoOperations.save(userGroup);
+        return findBy(userGroup.getUserId(),"userId").get();
     }
     
-    public void deletePoolGrupal(String userId) {
-        this.mongoOperations.findAndRemove(new Query(Criteria.where("userId").is(userId)), PoolGrupal.class);
+    public void deleteUserPoolGroup(String userId) {
+    	this.mongoOperations.findAndRemove(new Query(Criteria.where("userId").is(userId)), PoolGrupal.class);
     }
     
-    //Find all users
-    public Optional<List<PoolGrupal>> findAllPerDate(String hora) {
-    	List<PoolGrupal> poolGrupal = this.mongoOperations.find(new Query(Criteria.where("horaComida").is(hora)), PoolGrupal.class);
-        Optional<List<PoolGrupal>> optionalPoolGrupal = Optional.ofNullable(poolGrupal);
-        return optionalPoolGrupal;
-	}
+    public Optional<User> findBy(String search, String field) {
+        User d = this.mongoOperations.findOne(new Query(Criteria.where(field).is(search)), User.class);
+        Optional<User> user = Optional.ofNullable(d);
+        return user;
+    }
 }

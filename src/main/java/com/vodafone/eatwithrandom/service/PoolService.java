@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.vodafone.eatwithrandom.exception.CustomException;
 import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.User;
+import com.vodafone.eatwithrandom.repository.PoolGrupalRepository;
 import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.security.JwtTokenProvider;
 
@@ -17,7 +18,7 @@ import com.vodafone.eatwithrandom.security.JwtTokenProvider;
 public class PoolService {
 	
 	  @Autowired
-	  private UserRepository userRepository;
+	  private PoolGrupalRepository poolGrupalRepository;
 
 	  @Autowired
 	  private PasswordEncoder passwordEncoder;
@@ -26,14 +27,7 @@ public class PoolService {
 	  private JwtTokenProvider jwtTokenProvider;
 	
 	public String insertQeueF2F(User usuario) {
-		  String token = null;
-	    if (usuario != null) {
-	        User user = jwtTokenProvider.getUser(token);
-	        userRepository.saveUser(user);
-	        return token;
-	    } else {
-	        throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-	    }
+		 return null;
 	}
 
 	public String insertQeueGroup(User usuario, String horario, String bearerToken) {
@@ -42,7 +36,7 @@ public class PoolService {
 			  PoolGrupal usuarioGrupal = new PoolGrupal();
 			  usuarioGrupal.setUserId(usuario.getUserId());
 			  usuarioGrupal.setHoraComida(horario);  
-			  userRepository.saveUserPoolGroup(usuarioGrupal);
+			  poolGrupalRepository.saveUserPoolGroup(usuarioGrupal);
 			  
 			  //Actualizar JWT
 			  HashMap<String, Object> claimsMap = new HashMap<String, Object>();
@@ -56,20 +50,13 @@ public class PoolService {
 	}
 
 	public String deleteQeueF2F(User usuario) {
-		  String token = null;
-	    if (usuario != null) {
-	        User user = jwtTokenProvider.getUser(token);
-	        userRepository.saveUser(user);
-	        return token;
-	    } else {
-	        throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-	    }
+		 return null;
 	}
 
 	public String deleteQeueGroup(User usuario, String bearerToken) {
 		  String token = null;
 		  if (usuario != null) {
-			  userRepository.deleteUserPoolGroup(usuario.getUserId());
+			  poolGrupalRepository.deleteUserPoolGroup(usuario.getUserId());
 			  
 			  //Actualizar JWT
 			  HashMap<String, Object> claimsMap = new HashMap<String, Object>();

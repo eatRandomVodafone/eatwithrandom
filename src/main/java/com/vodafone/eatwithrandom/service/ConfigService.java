@@ -3,7 +3,9 @@ package com.vodafone.eatwithrandom.service;
 import com.vodafone.eatwithrandom.model.Config;
 import com.vodafone.eatwithrandom.model.Mesa;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConfigService {
 
     @Value("${config.nexts}")

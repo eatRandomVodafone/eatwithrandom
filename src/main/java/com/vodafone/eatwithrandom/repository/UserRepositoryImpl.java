@@ -42,12 +42,6 @@ public class UserRepositoryImpl implements UserRepository{
         Optional<User> user = Optional.ofNullable(d);
         return user;
     }
-    
-    public Optional<User> findBy(String search, String field) {
-        User d = this.mongoOperations.findOne(new Query(Criteria.where(field).is(search)), User.class);
-        Optional<User> user = Optional.ofNullable(d);
-        return user;
-    }
 
     public User saveUser(User user) {
         this.mongoOperations.save(user);
@@ -93,13 +87,5 @@ public class UserRepositoryImpl implements UserRepository{
     	this.mongoOperations.findAndRemove(new Query(Criteria.where("token").is(token).and("jwt").is(jwt)), TempUser.class);
     }
     
-    public User saveUserPoolGroup(PoolGrupal userGroup) {
-        this.mongoOperations.save(userGroup);
-        return findBy(userGroup.getUserId(),"userId").get();
-    }
-    
-    public void deleteUserPoolGroup(String userId) {
-    	this.mongoOperations.findAndRemove(new Query(Criteria.where("userId").is(userId)), PoolGrupal.class);
-    }
     
 }

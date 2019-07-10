@@ -9,23 +9,16 @@ import java.util.Optional;
 public interface PoolGrupalRepository{
 
 	/**
-     * save a new user
+     * save a new user pool group
      * @param user
      * @return
      */
-    public void savePoolGrupal(User user);
-
-    /**
-     * Delete a user by id
-     * @param userId
-     */
-    public void deletePoolGrupal(String userId);
+    public User saveUserPoolGroup(PoolGrupal userGroup);
     
     /**
-     * Find a user     
-     * @param user
-     * @return
+     * Delete a user pool group by id
+     * @param userId
      */
-	Optional<List<PoolGrupal>> findAllPerDate(String hora);	
+    public void deleteUserPoolGroup(String userId);
     
 }
