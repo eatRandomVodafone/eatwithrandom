@@ -73,15 +73,17 @@ public class UserRepositoryImpl implements UserRepository{
     	return token;
     }
     
-    public String getTempUser (String token) {
-    	String jwt = null;
+    public Optional<TempUser> getTempUser (String token) {
     	TempUser d = this.mongoOperations.findOne(new Query(Criteria.where("token").is(token)), TempUser.class);
-    	Optional<TempUser> tempUser = Optional.ofNullable(d);
-    	if (tempUser.isPresent()) {
-    		jwt = tempUser.get().getJwt();
-    	}
+    	Optional<TempUser> tempUser = Optional.ofNullable(d);    	
+    	return tempUser;
+    }
+    
+    public void deleteTempUser (TempUser tempuser ) {
+    	String jwt = tempuser.getJwt();
+    	String token = tempuser.getToken();
     	
-    	return jwt;
+    	this.mongoOperations.findAndRemove(new Query(Criteria.where("token").is(token).and("jwt").is(jwt)), TempUser.class);
     }
     
 

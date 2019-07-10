@@ -1,5 +1,6 @@
 package com.vodafone.eatwithrandom.repository;
 
+import com.vodafone.eatwithrandom.model.TempUser;
 import com.vodafone.eatwithrandom.model.User;
 
 import java.util.List;
@@ -60,6 +61,12 @@ public interface UserRepository{
      * @param token
      * @return
      */
-    public String getTempUser(String token);
+    public Optional<TempUser> getTempUser(String token);
+    
+    /**
+     * 
+     * @param tempuser
+     */
+    public void deleteTempUser (TempUser tempuser );
 
 }

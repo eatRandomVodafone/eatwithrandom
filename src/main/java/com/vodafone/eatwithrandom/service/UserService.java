@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vodafone.eatwithrandom.exception.CustomException;
+import com.vodafone.eatwithrandom.model.TempUser;
 import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.security.JwtTokenProvider;
@@ -48,10 +49,21 @@ public class UserService {
   
   public String postsignup(String token) {
       if (token != null) {
-    	  String jwt = userRepository.getTempUser(token);
-          User user = jwtTokenProvider.getUser(jwt);
-          userRepository.saveUser(user);
-          return token;
+    	  //Recuperamos el usuario temporal
+    	  Optional<TempUser> tempUser = userRepository.getTempUser(token);
+    	  if (tempUser.isPresent()) {
+    		  //Obtenemos el usuario del jwt
+              User user = jwtTokenProvider.getUser(tempUser.get().getJwt());
+              //Creamos el usuario en la BD
+              userRepository.saveUser(user);
+              //Borramos el usuario temporal
+              userRepository.deleteTempUser(tempUser.get());
+              return tempUser.get().getJwt(); 
+    	  }
+    	  else {
+    		  throw new CustomException("Token dont exist", HttpStatus.UNPROCESSABLE_ENTITY);
+    	  }
+    	  
       } else {
           throw new CustomException("Token dont exist", HttpStatus.UNPROCESSABLE_ENTITY);
       }

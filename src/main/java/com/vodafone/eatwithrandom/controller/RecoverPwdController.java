@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/recoverpwd")
+@RequestMapping("/eatwithrandom")
 public class RecoverPwdController {
 
     @Autowired
     private RecoverPwdService recoverPwdService;
 
-    @GetMapping("/recoverpwd/{username}")
-    public String recoverPassword(@PathVariable String username){
-        return this.recoverPwdService.generatePassword(username);
+    @GetMapping("/recoverpwd")
+    public String recoverPassword(){
+        return this.recoverPwdService.generatePassword();
     }
 }
