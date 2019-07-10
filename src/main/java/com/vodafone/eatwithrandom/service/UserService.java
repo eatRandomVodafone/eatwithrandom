@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vodafone.eatwithrandom.exception.CustomException;
+import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.security.JwtTokenProvider;
@@ -46,13 +47,60 @@ public class UserService {
     }
   }
   
-  public String postsignup(String token) {
-      if (token != null) {
+  public String insertQeueF2F() {
+	  String token = null;
+      if (username != null) {
           User user = jwtTokenProvider.getUser(token);
           userRepository.saveUser(user);
           return token;
       } else {
-          throw new CustomException("Token dont exist", HttpStatus.UNPROCESSABLE_ENTITY);
+          throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+      }
+  }
+  
+  public String insertQeueGroup(String horario) {
+	  String token = null;
+	  PoolGrupal usuarioGrupal = new PoolGrupal();
+	  usuarioGrupal.setUserId(userId);
+      if (username != null) {
+          User user = jwtTokenProvider.getUser(token);
+          userRepository.saveUser(user);
+          return token;
+      } else {
+          throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+      }
+  }
+  
+  public String deleteQeueF2F() {
+	  String token = null;
+      if (username != null) {
+          User user = jwtTokenProvider.getUser(token);
+          userRepository.saveUser(user);
+          return token;
+      } else {
+          throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+      }
+  }
+  
+  public String deleteQeueGroup(String horario) {
+	  String token = null;
+      if (username != null) {
+          User user = jwtTokenProvider.getUser(token);
+          userRepository.saveUser(user);
+          return token;
+      } else {
+          throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+      }
+  }
+  
+  public String postsignup(String username) {
+	  String token = null;
+      if (username != null) {
+          User user = jwtTokenProvider.getUser(token);
+          userRepository.saveUser(user);
+          return token;
+      } else {
+          throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
       }
   }
 
