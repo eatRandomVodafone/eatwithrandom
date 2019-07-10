@@ -6,7 +6,7 @@ import com.vodafone.eatwithrandom.model.User;
 
 public class UserModel {
 	
-	public User getCurrentUser() {
+	public static User getCurrentUser() {
 		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 }
