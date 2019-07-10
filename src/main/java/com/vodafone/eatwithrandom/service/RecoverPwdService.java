@@ -16,9 +16,7 @@ public class RecoverPwdService {
     @Autowired
     private UserRepositoryImpl userRepository;
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    
-    @Autowired
-    private UserModel userModel;
+ 
 
     public String generatePassword() {
         StringBuilder builder = new StringBuilder();
@@ -29,7 +27,7 @@ public class RecoverPwdService {
         }
         String newPwd = builder.toString();
         
-        String username = userModel.getCurrentUser().getUsername();
+        String username = UserModel.getCurrentUser().getUsername();
 
         User user = this.userRepository.findOne(username).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
         user.setPassword(newPwd);
