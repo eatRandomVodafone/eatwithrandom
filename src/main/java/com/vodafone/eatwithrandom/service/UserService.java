@@ -41,22 +41,33 @@ public class UserService {
     	//Check patron usuario
     	String jwt = jwtTokenProvider.createToken(user);
     	//Send mail
-    	userRepository.saveUser(user);
+    	userRepository.saveTempUser(jwt);
     } else {
       throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
   
-  public String insertQeueF2F() {
-	  String token = null;
-      if (username != null) {
-          User user = jwtTokenProvider.getUser(token);
+  public String postsignup(String token) {
+      if (token != null) {
+    	  String jwt = userRepository.getTempUser(token);
+          User user = jwtTokenProvider.getUser(jwt);
           userRepository.saveUser(user);
           return token;
       } else {
           throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
       }
   }
+
+	public String insertQeueF2F() {
+		  String token = null;
+	    if (username != null) {
+	        User user = jwtTokenProvider.getUser(token);
+	        userRepository.saveUser(user);
+	        return token;
+	    } else {
+	        throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+	    }
+	}
   
   public String insertQeueGroup(String horario) {
 	  String token = null;
