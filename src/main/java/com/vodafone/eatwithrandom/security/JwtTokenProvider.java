@@ -1,5 +1,6 @@
 package com.vodafone.eatwithrandom.security;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -56,10 +57,10 @@ public class JwtTokenProvider {
     claims.put("rol", user.getRol());
     claims.put("bio", user.getBio());
     
-    if (user.getAficiones() != null && user.getAficiones().length > 0) {
+    if (user.getAficiones() != null && user.getAficiones().isEmpty()) {
     	claims.put("aficiones", user.getAficiones());
     }
-    if (user.getAlergias() != null && user.getAlergias().length > 0) {
+    if (user.getAlergias() != null && user.getAlergias().isEmpty()) {
     	claims.put("alergias", user.getAlergias());
     }
     if (user.getHoraPrefer() != null) {
@@ -100,18 +101,22 @@ public class JwtTokenProvider {
       user.setRol(claims.get("rol").toString());
       user.setBio(claims.get("bio").toString());
       
-      /*if (claims.get("aficiones") != null) {
-    	  user.setAficiones(claims.get("aficiones").toString());
+      ArrayList<String> aux = new ArrayList<String>();      
+      
+      if (claims.get("aficiones") != null) {
+    	  aux = (ArrayList) claims.get("aficiones");
+    	  user.setAficiones(aux);
       }
-      if (user.getAlergias() != null && user.getAlergias().length > 0) {
-      	claims.put("alergias", user.getAlergias());
+      if (claims.get("alergias") != null) {
+    	  aux = (ArrayList) claims.get("alergias");
+    	  user.setAlergias(aux);
       }
-      if (user.getHoraPrefer() != null) {
-      	claims.put("horaPrefer", user.getHoraPrefer());
+      if (claims.get("horaPrefer") != null) {
+    	  user.setHoraPrefer(claims.get("horaPrefer").toString());
       }
-      if (user.getIdiomaPrefer() != null) {
-      	claims.put("idiomaPrefer", user.getIdiomaPrefer());
-      }*/
+      if (claims.get("idiomaPrefer") != null) {
+    	  user.setHoraPrefer(claims.get("idiomaPrefer").toString());
+      }
       
       return user;
   }

@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
 
@@ -29,9 +30,9 @@ public class User implements Serializable{
     @NotNull    
     private String rol;
         
-    private String [] aficiones;
+    private ArrayList<String> aficiones;
         
-    private String [] alergias;
+    private ArrayList<String> alergias;
         
     private String horaPrefer;
         
@@ -81,16 +82,16 @@ public class User implements Serializable{
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
-	public String[] getAficiones() {
+	public ArrayList<String> getAficiones() {
 		return aficiones;
 	}
-	public void setAficiones(String[] aficiones) {
+	public void setAficiones(ArrayList<String> aficiones) {
 		this.aficiones = aficiones;
 	}
-	public String[] getAlergias() {
+	public ArrayList<String> getAlergias() {
 		return alergias;
 	}
-	public void setAlergias(String[] alergias) {
+	public void setAlergias(ArrayList<String> alergias) {
 		this.alergias = alergias;
 	}
 	public String getHoraPrefer() {
