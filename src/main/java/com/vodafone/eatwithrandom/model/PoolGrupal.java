@@ -2,7 +2,6 @@
 package com.vodafone.eatwithrandom.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
@@ -17,17 +16,17 @@ public class PoolGrupal implements Serializable{
     @NotNull    
     private String userId;
     @NotNull    
-    private LocalDateTime horaComida;
+    private String horaComida;
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public LocalDateTime getHoraComida() {
+	public String getHoraComida() {
 		return horaComida;
 	}
-	public void setHoraComida(LocalDateTime horaComida) {
+	public void setHoraComida(String horaComida) {
 		this.horaComida = horaComida;
 	}
 	

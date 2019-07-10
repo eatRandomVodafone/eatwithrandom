@@ -19,6 +19,7 @@ import com.vodafone.eatwithrandom.enums.Actions;
 import com.vodafone.eatwithrandom.enums.Qeue;
 import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.service.UserService;
+import com.vodafone.eatwithrandom.utils.UserModel;
 
 
 
@@ -70,22 +71,24 @@ public class UserController {
    		 @RequestParam String area) {  
     	
     	UserResponseDTO response = new UserResponseDTO();
-    	String jwt = null;
+    	String jwt = null;    	
+    	
+    	User usuarioToken = UserModel.getCurrentUser();
         
     	if(action.equalsIgnoreCase(Actions.UP.toString())) {
     		if(qeue.equalsIgnoreCase(Qeue.FACETOFACE.toString())) {	
-    			jwt = userService.insertQeueF2F();
+    			jwt = userService.insertQeueF2F(usuarioToken);
     		}
     		else if(action.equalsIgnoreCase(Qeue.GROUP.toString())) {
-    			jwt = userService.insertQeueGroup(horario);
+    			jwt = userService.insertQeueGroup(usuarioToken, horario);
     		}
     		
     	} else if(action.equalsIgnoreCase(Actions.DOWN.toString())) {
     		if(qeue.equalsIgnoreCase(Qeue.FACETOFACE.toString())) {	
-    			jwt = userService.deleteQeueF2F();
+    			jwt = userService.deleteQeueF2F(usuarioToken);
     		}
     		else if(action.equalsIgnoreCase(Qeue.GROUP.toString())) {
-    			jwt = userService.deleteQeueGroup(horario);
+    			jwt = userService.deleteQeueGroup(usuarioToken);
     		}
     	}
     	
