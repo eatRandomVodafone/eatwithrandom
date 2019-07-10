@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "config")
