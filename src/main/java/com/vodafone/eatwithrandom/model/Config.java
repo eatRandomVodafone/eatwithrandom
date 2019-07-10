@@ -21,6 +21,13 @@ public class Config {
     private int minPersonasGrupo;
     @NotNull    
     private Mesa[] mesas;
+
+	public Config(int numeroNext, int minPersonasGrupo, Mesa[] mesas) {
+		this.numeroNext = numeroNext;
+		this.minPersonasGrupo = minPersonasGrupo;
+		this.mesas = mesas;
+	}
+
 	public int getNumeroNext() {
 		return numeroNext;
 	}

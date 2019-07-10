@@ -21,6 +21,48 @@ logging:
         web:
           client: DEBUG
 
+# Mesas
+mesas:
+  - &m1
+    id: mesa_1
+    maxPersonas: 6
+    horarios: 13 - 14
+  - &m2
+    id: mesa_2
+    maxPersonas: 6
+    horarios: 14 - 15
+  - &m3
+    id: mesa_3
+    maxPersonas: 6
+    horarios: 15 - 16
+  - &m4
+    id: mesa_4
+    maxPersonas: 4
+    horarios: 13 - 14
+  - &m5
+    id: mesa_5
+    maxPersonas: 4
+    horarios: 14 - 15
+  - &m6
+    id: mesa_6
+    maxPersonas: 4
+    horarios: 15 - 16
+
+
+# Config
+config:
+  nexts: 2
+  minGroup: 3
+  mesas:
+    - *m1
+    - *m2
+    - *m3
+    - *m4
+    - *m5
+    - *m6
+
+
+
 # HTTP Server
 server:
   port: 4444   # HTTP (Tomcat) port
