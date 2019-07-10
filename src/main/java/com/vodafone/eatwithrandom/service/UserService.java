@@ -73,51 +73,7 @@ public class UserService {
       }
   }
 
-	public String insertQeueF2F(User usuario) {
-		  String token = null;
-	    if (usuario != null) {
-	        User user = jwtTokenProvider.getUser(token);
-	        userRepository.saveUser(user);
-	        return token;
-	    } else {
-	        throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-	    }
-	}
-  
-  public String insertQeueGroup(User usuario, String horario) {
-	  String token = null;
-	  if (usuario != null) {
-		  PoolGrupal usuarioGrupal = new PoolGrupal();
-		  usuarioGrupal.setUserId(usuario.getUserId());
-		  usuarioGrupal.setHoraComida(horario);  
-		  userRepository.saveUserPoolGroup(usuarioGrupal);
-          return token;
-      } else {
-          throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-      }
-  }
-  
-  public String deleteQeueF2F(User usuario) {
-	  String token = null;
-      if (usuario != null) {
-          User user = jwtTokenProvider.getUser(token);
-          userRepository.saveUser(user);
-          return token;
-      } else {
-          throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-      }
-  }
-  
-  public String deleteQeueGroup(User usuario) {
-	  String token = null;
-	  if (usuario != null) {
-		  userRepository.deleteUserPoolGroup(usuario.getUserId());
-          return token;
-      } else {
-          throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-      }
-  }
-
+	
   /*public void delete(String name) {
     userRepository.deleteUser(name);
   }*/

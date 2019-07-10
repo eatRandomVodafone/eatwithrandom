@@ -3,6 +3,7 @@ package com.vodafone.eatwithrandom.security;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -57,10 +58,10 @@ public class JwtTokenProvider {
     claims.put("rol", user.getRol());
     claims.put("bio", user.getBio());
     
-    if (user.getAficiones() != null && user.getAficiones().isEmpty()) {
+    if (user.getAficiones() != null && !user.getAficiones().isEmpty()) {
     	claims.put("aficiones", user.getAficiones());
     }
-    if (user.getAlergias() != null && user.getAlergias().isEmpty()) {
+    if (user.getAlergias() != null && !user.getAlergias().isEmpty()) {
     	claims.put("alergias", user.getAlergias());
     }
     if (user.getHoraPrefer() != null) {
@@ -80,6 +81,7 @@ public class JwtTokenProvider {
         .signWith(SignatureAlgorithm.HS256, secretKey)//
         .compact();
   }
+ 
 
   public Authentication getAuthentication(String token) {
     UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
@@ -115,7 +117,7 @@ public class JwtTokenProvider {
     	  user.setHoraPrefer(claims.get("horaPrefer").toString());
       }
       if (claims.get("idiomaPrefer") != null) {
-    	  user.setHoraPrefer(claims.get("idiomaPrefer").toString());
+    	  user.setIdiomaPrefer(claims.get("idiomaPrefer").toString());
       }
       
       return user;
@@ -128,6 +130,33 @@ public class JwtTokenProvider {
     }
     return null;
   }
+  
+  public String resolveToken(String bearerToken) {
+    if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+      return bearerToken.substring(7);
+    }
+    return null;
+  }
+  
+  public String updateToken(String bearerToken, HashMap<String, Object> claimsMap) {
+	  
+	  	Date now = new Date();
+	    Date validity = new Date(now.getTime() + validityInMilliseconds);
+	    
+		String jwt = resolveToken(bearerToken);
+
+		Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwt).getBody();
+		claims.putAll(claimsMap);
+
+		String jwtUpdated = Jwts.builder()//
+	        .setClaims(claims)//
+	        .setIssuedAt(now)//
+	        .setExpiration(validity)//
+	        .signWith(SignatureAlgorithm.HS256, secretKey)//
+	        .compact();
+
+		return jwtUpdated;
+	}
 
   public boolean validateToken(String token) {
     try {
