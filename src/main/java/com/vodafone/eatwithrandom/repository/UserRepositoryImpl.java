@@ -40,7 +40,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     public User saveUser(User user) {
         this.mongoOperations.save(user);
-        return findOne(user.getUsername()).get();
+        return findOne(user.getName()).get();
     }
     
     public void updateUser(User user) {

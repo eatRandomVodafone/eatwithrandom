@@ -31,21 +31,21 @@ public class UserService {
   }
 
   public String signup(User user) {
-    if (!userRepository.findOne(user.getUsername()).isPresent()) {
+    if (!userRepository.findOne(user.getName()).isPresent()) {
       //user.setPassword(passwordEncoder.encode(user.getPassword()));
       userRepository.saveUser(user);
-      return jwtTokenProvider.createToken(user.getUsername());
+      return jwtTokenProvider.createToken(user.getName());
     } else {
       throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
 
-  /*public void delete(String username) {
-    userRepository.deleteUser(username);
+  /*public void delete(String name) {
+    userRepository.deleteUser(name);
   }*/
 
-  /*public User search(String username) {
-    User user = userRepository.findOne(username).get();
+  /*public User search(String name) {
+    User user = userRepository.findOne(name).get();
     if (user == null) {
       throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
     }
@@ -56,8 +56,8 @@ public class UserService {
     return userRepository.findOne(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req))).get();
   }*/
 
-  /*public String refresh(String username) {
-    return jwtTokenProvider.createToken(username);
+  /*public String refresh(String name) {
+    return jwtTokenProvider.createToken(name);
   }*/
 
 }
