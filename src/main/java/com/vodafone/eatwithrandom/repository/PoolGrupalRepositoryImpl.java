@@ -3,6 +3,7 @@ package com.vodafone.eatwithrandom.repository;
 import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.model.Mesa;
 import com.vodafone.eatwithrandom.model.PoolGrupal;
+import com.vodafone.eatwithrandom.model.ReservaGrupal;
 import com.vodafone.eatwithrandom.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,13 @@ public class PoolGrupalRepositoryImpl implements PoolGrupalRepository{
     	List<PoolGrupal> d = this.mongoOperations.find(new Query(Criteria.where("horaComida").is(hour)), PoolGrupal.class);
     	Optional<List<PoolGrupal>> optionalPoolGrupals = Optional.ofNullable(d);
         return optionalPoolGrupals;
+    }
     
+    public void saveReserva(ReservaGrupal reserva) {
+    	this.mongoOperations.save(reserva);
+    }
+    
+    public void deleteAll() {
+    	this.mongoOperations.remove(new Query(), PoolGrupal.class);
     }
 }

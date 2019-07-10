@@ -16,6 +16,8 @@ public class Config {
     private String min_grupo;
     @NotNull    
     private ArrayList<Mesa> mesas;
+    @NotNull
+    private ArrayList<String> horarios;
 
 	public String getMinPersonasGrupo() {
 		return min_grupo;
@@ -28,6 +30,12 @@ public class Config {
 	}
 	public void setMesas(ArrayList<Mesa> mesas) {
 		this.mesas = mesas;
+	}
+	public ArrayList<String> getHorarios() {
+		return horarios;
+	}
+	public void setHorarios(ArrayList<String> horarios) {
+		this.horarios = horarios;
 	}
     
 }

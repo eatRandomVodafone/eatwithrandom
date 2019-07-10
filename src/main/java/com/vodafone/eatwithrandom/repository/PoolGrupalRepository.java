@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.vodafone.eatwithrandom.model.PoolGrupal;
+import com.vodafone.eatwithrandom.model.ReservaGrupal;
 import com.vodafone.eatwithrandom.model.User;
 
 public interface PoolGrupalRepository{
@@ -43,5 +44,17 @@ public interface PoolGrupalRepository{
      * @return
      */
     public Optional<List<PoolGrupal>> findByHour(String hour);
+    
+    /**
+     * 
+     */
+    public void deleteAll();
+    
+    /**
+     * 
+     * @param reserva
+     */
+    public void saveReserva(ReservaGrupal reserva);
+
     
 }

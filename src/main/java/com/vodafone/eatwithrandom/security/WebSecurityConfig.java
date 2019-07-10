@@ -36,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, "/eatwithrandom/signup").permitAll()//
         .antMatchers(HttpMethod.GET, "/eatwithrandom/postsignup/**").permitAll()//
         .antMatchers(HttpMethod.GET, "/eatwithrandom/asignar").permitAll()//
+        .antMatchers(HttpMethod.GET, "/eatwithrandom/config").permitAll()//
         // Disallow everything else..
         .anyRequest().authenticated().and()
         .apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
