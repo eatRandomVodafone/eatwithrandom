@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.vodafone.eatwithrandom.service.UserService;
+import com.vodafone.eatwithrandom.service.UserContextService;
 
 @SpringBootApplication
 public class EatWithRandomApp {
@@ -15,5 +15,9 @@ public class EatWithRandomApp {
   }
   
 
+  @Bean
+  public UserContextService UserModel() {
+    return new UserContextService();
+  }
 
 }

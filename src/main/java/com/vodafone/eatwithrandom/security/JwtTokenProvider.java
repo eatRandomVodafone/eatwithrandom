@@ -1,5 +1,6 @@
 package com.vodafone.eatwithrandom.security;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import com.vodafone.eatwithrandom.exception.CustomException;
+import com.vodafone.eatwithrandom.model.User;
 
 @Component
 public class JwtTokenProvider {
@@ -45,10 +47,28 @@ public class JwtTokenProvider {
     secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
   }
 
-  public String createToken(String username) {
+  public String createToken(User user) {
 
-    Claims claims = Jwts.claims().setSubject(username);
-    //claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));
+    Claims claims = Jwts.claims().setSubject(user.getUsername());
+    claims.put("usr", user.getUsername());
+    claims.put("sec", user.getPassword());
+    claims.put("name", user.getName());
+    claims.put("area", user.getArea());
+    claims.put("rol", user.getRol());
+    claims.put("bio", user.getBio());
+    
+    if (user.getAficiones() != null && user.getAficiones().isEmpty()) {
+    	claims.put("aficiones", user.getAficiones());
+    }
+    if (user.getAlergias() != null && user.getAlergias().isEmpty()) {
+    	claims.put("alergias", user.getAlergias());
+    }
+    if (user.getHoraPrefer() != null) {
+    	claims.put("horaPrefer", user.getHoraPrefer());
+    }
+    if (user.getIdiomaPrefer() != null) {
+    	claims.put("idiomaPrefer", user.getIdiomaPrefer());
+    }
 
     Date now = new Date();
     Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -68,6 +88,37 @@ public class JwtTokenProvider {
 
   public String getUsername(String token) {
     return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+  }
+  
+  public User getUser(String token) {        
+      User user = new User();
+      Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+      
+      user.setUsername(claims.get("usr").toString());
+      user.setPassword(claims.get("sec").toString());
+      user.setName(claims.get("name").toString());
+      user.setArea(claims.get("area").toString());
+      user.setRol(claims.get("rol").toString());
+      user.setBio(claims.get("bio").toString());
+      
+      ArrayList<String> aux = new ArrayList<String>();      
+      
+      if (claims.get("aficiones") != null) {
+    	  aux = (ArrayList) claims.get("aficiones");
+    	  user.setAficiones(aux);
+      }
+      if (claims.get("alergias") != null) {
+    	  aux = (ArrayList) claims.get("alergias");
+    	  user.setAlergias(aux);
+      }
+      if (claims.get("horaPrefer") != null) {
+    	  user.setHoraPrefer(claims.get("horaPrefer").toString());
+      }
+      if (claims.get("idiomaPrefer") != null) {
+    	  user.setHoraPrefer(claims.get("idiomaPrefer").toString());
+      }
+      
+      return user;
   }
 
   public String resolveToken(HttpServletRequest req) {

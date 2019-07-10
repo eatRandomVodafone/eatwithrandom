@@ -7,19 +7,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "users")
-@JsonPropertyOrder({"userId", "name", "email", "password", "area", "rol", "aficiones", "alergias", "idiomaPrefer", "horaPrefer", "bio", "nextDados", "asignaciones", "negativos"})
+@JsonPropertyOrder({"userId", "username", "password", "name", "area", "rol", "aficiones", "alergias", "idiomaPrefer", "horaPrefer", "bio", "nextDados", "asignaciones", "negativos"})
 public class User implements Serializable{
 
 	private static final long serialVersionUID = -7788619177798333712L;
 
     @Id
     private String userId;
-    @NotNull    
-    private String email;
+    @NotNull
+    private String username;
     @NotNull    
     private String password;
     @NotNull    
@@ -28,13 +29,13 @@ public class User implements Serializable{
     private String area;
     @NotNull    
     private String rol;
-    @NotNull    
-    private String [] aficiones;
-    @NotNull    
-    private String [] alergias;
-    @NotNull    
-    private LocalDateTime horaPrefer;
-    @NotNull    
+        
+    private ArrayList<String> aficiones;
+        
+    private ArrayList<String> alergias;
+        
+    private String horaPrefer;
+        
     private String idiomaPrefer;
     @NotNull    
     private String bio;
@@ -44,17 +45,18 @@ public class User implements Serializable{
     private int asignaciones;
     @NotNull    
     private int negativos;
+    
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getEmail() {
-		return email;
+	public String getUsername() {
+		return username;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -80,22 +82,22 @@ public class User implements Serializable{
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
-	public String[] getAficiones() {
+	public ArrayList<String> getAficiones() {
 		return aficiones;
 	}
-	public void setAficiones(String[] aficiones) {
+	public void setAficiones(ArrayList<String> aficiones) {
 		this.aficiones = aficiones;
 	}
-	public String[] getAlergias() {
+	public ArrayList<String> getAlergias() {
 		return alergias;
 	}
-	public void setAlergias(String[] alergias) {
+	public void setAlergias(ArrayList<String> alergias) {
 		this.alergias = alergias;
 	}
-	public LocalDateTime getHoraPrefer() {
+	public String getHoraPrefer() {
 		return horaPrefer;
 	}
-	public void setHoraPrefer(LocalDateTime horaPrefer) {
+	public void setHoraPrefer(String horaPrefer) {
 		this.horaPrefer = horaPrefer;
 	}
 	public String getIdiomaPrefer() {
