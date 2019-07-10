@@ -2,7 +2,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/test
+      uri: mongodb://172.17.0.1:27017/test
   application:
     name: user-service  # Service registers under this name
 
