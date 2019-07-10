@@ -94,11 +94,11 @@ public class JwtTokenProvider {
       Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
       
       user.setUsername(claims.get("usr").toString());
-      user.setUsername(claims.get("sec").toString());
-      user.setUsername(claims.get("name").toString());
-      user.setUsername(claims.get("area").toString());
-      user.setUsername(claims.get("rol").toString());
-      user.setUsername(claims.get("bio").toString());
+      user.setPassword(claims.get("sec").toString());
+      user.setName(claims.get("name").toString());
+      user.setArea(claims.get("area").toString());
+      user.setRol(claims.get("rol").toString());
+      user.setBio(claims.get("bio").toString());
       
       /*if (claims.get("aficiones") != null) {
     	  user.setAficiones(claims.get("aficiones").toString());

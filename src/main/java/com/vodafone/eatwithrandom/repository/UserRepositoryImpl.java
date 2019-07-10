@@ -1,14 +1,18 @@
 package com.vodafone.eatwithrandom.repository;
 
 import com.vodafone.eatwithrandom.repository.UserRepository;
+import com.vodafone.eatwithrandom.utils.RandomString;
+import com.vodafone.eatwithrandom.model.TempUser;
 import com.vodafone.eatwithrandom.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -57,5 +61,28 @@ public class UserRepositoryImpl implements UserRepository{
         Optional<User> user = Optional.ofNullable(d);
         return user;
     }
+    
+    public String saveTempUser (String jwt) {
+    	String token = RandomString.generateString();
+
+        TempUser tempuser = new TempUser();
+        tempuser.setJwt(jwt);
+        tempuser.setToken(token);
+    	this.mongoOperations.save(tempuser);
+    	
+    	return token;
+    }
+    
+    public String getTempUser (String token) {
+    	String jwt = null;
+    	TempUser d = this.mongoOperations.findOne(new Query(Criteria.where("token").is(token)), TempUser.class);
+    	Optional<TempUser> tempUser = Optional.ofNullable(d);
+    	if (tempUser.isPresent()) {
+    		jwt = tempUser.get().getJwt();
+    	}
+    	
+    	return jwt;
+    }
+    
 
 }
