@@ -1,12 +1,12 @@
 package com.vodafone.eatwithrandom.enums;
 
-public enum Qeue {
+public enum Queue {
 	FACETOFACE("FACETOFACE"),
 	GROUP("GROUP");
 	
 	private final String text;
 
-	Qeue(final String text) {
+	Queue(final String text) {
         this.text = text;
     }
 
