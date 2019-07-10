@@ -25,3 +25,19 @@ logging:
 server:
   port: 4444   # HTTP (Tomcat) port
 
+# MAILING
+mail:
+  default-encoding: UTF-8
+  host: smtp.gmail.com
+  username: eatrandomvodafone@gmail.com
+  password: Vodafone2019
+  port: 587
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+  protocol: smtp
+  test-connection: false
+
