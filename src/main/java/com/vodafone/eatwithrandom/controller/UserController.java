@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vodafone.eatwithrandom.dto.Login;
 import com.vodafone.eatwithrandom.dto.UserResponseDTO;
 import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.service.UserService;
@@ -32,11 +33,10 @@ public class UserController {
 
     @PostMapping("/signin")
     public UserResponseDTO login(
-    		 @RequestParam String username,
-    		 @RequestParam String password) {
+    		@RequestBody Login login) {
     	
     	UserResponseDTO response = new UserResponseDTO();	
-    	String jwt = userService.signin(username, password);
+    	String jwt = userService.signin(login.getUsername(), login.getPassword());
     	
     	response.setJwt(jwt);
     	
@@ -61,7 +61,7 @@ public class UserController {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         try{
-            URI location = new URI("/*");
+            URI location = new URI("http://18.185.48.95");
             httpHeaders.setLocation(location);
             return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 

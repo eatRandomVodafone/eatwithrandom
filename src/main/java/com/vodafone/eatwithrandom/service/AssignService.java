@@ -34,7 +34,7 @@ public class AssignService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Scheduled(cron = "0 0 12 * * MON-FRI")
+	//@Scheduled(cron = "0 0 12 * * MON-FRI")
 	public void asignarMesa() {
 		
 		Date now = new Date();

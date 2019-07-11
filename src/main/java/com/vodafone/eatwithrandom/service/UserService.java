@@ -53,7 +53,7 @@ public class UserService {
     	String token = userRepository.saveTempUser(jwt);
     	//Send mail
     	emailService.sendEmail("Confirmación de registro", "Estás a un paso de crear tu usuario. Confirma haciendo click aquí:"
-        		+ ":http://localhost:4444/eatwithrandom/postsignup/"+ token, user.getUsername());
+        		+ "http://18.185.48.95:4444/eatwithrandom/postsignup/"+ token, user.getUsername());
     } else {
       throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
     }
