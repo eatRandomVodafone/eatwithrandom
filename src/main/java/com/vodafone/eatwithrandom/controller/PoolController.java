@@ -3,6 +3,7 @@ package com.vodafone.eatwithrandom.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -21,6 +22,7 @@ import com.vodafone.eatwithrandom.service.UserContextService;
 
 @RestController
 @RequestMapping("/eatwithrandom")
+@CrossOrigin(origins = "*")
 public class PoolController {
 	
 	@Autowired
