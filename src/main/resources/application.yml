@@ -2,7 +2,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/test
+      uri: mongodb://admin:admin@eat2meet-shard-00-00-yuhyg.mongodb.net:27017,eat2meet-shard-00-01-yuhyg.mongodb.net:27017,eat2meet-shard-00-02-yuhyg.mongodb.net:27017/test?ssl=true&replicaSet=eat2meet-shard-0&authSource=admin&retryWrites=true&w=majority
   application:
     name: user-service  # Service registers under this name
 
