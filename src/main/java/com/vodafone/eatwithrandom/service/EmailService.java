@@ -40,7 +40,8 @@ public class EmailService {
             message.setFrom(new InternetAddress(remitente));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));   //Se podrían añadir varios de la misma manera
             message.setSubject(subject);
-            message.setText(body);
+            //message.setText(body);
+            message.setContent(body, "text/html");
             Transport t = session.getTransport("smtp");
 			t.connect("smtp.gmail.com", (String)props.get("mail.smtp.user"), password);
 			t.sendMessage(message, message.getAllRecipients());

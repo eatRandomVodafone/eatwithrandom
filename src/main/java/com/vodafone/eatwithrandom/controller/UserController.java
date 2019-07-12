@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vodafone.eatwithrandom.dto.Login;
 import com.vodafone.eatwithrandom.dto.UserResponseDTO;
@@ -25,6 +26,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/eatwithrandom")
+@CrossOrigin(origins = "http://18.185.48.95:80")
 public class UserController {
 	
 	@Autowired
@@ -32,7 +34,7 @@ public class UserController {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    @CrossOrigin
+    
     @PostMapping("/signin")
     public UserResponseDTO login(
     		@RequestBody Login login) {
