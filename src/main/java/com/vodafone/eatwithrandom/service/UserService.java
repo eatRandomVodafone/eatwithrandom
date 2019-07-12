@@ -306,7 +306,7 @@ public class UserService {
     			"								<table align=\"left\" role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"margin: auto; margin-top: 20px !important;\">\r\n" + 
     			"									<tr>\r\n" + 
     			"										<td class=\"button-td button-td-primary\" style=\"border-radius: 4px; background: #e60000;\">\r\n" + 
-    			"											<a class=\"button-a button-a-primary\" href=\"http://18.185.48.95:4444/eatwithrandom/postsignup/"+ token + "\" style=\"background: #e60000; border: 1px solid #e60000; font-family: sans-serif; font-size: 15px; line-height: 15px; text-decoration: none; padding: 13px 17px; color: #ffffff; display: block; border-radius: 4px;\">Confirmar registro</a>\r\n" + 
+    			"											<a class=\"button-a button-a-primary\" href=\"https://eat2meet.herokuapp.com/eatwithrandom/postsignup/"+ token + "\" style=\"background: #e60000; border: 1px solid #e60000; font-family: sans-serif; font-size: 15px; line-height: 15px; text-decoration: none; padding: 13px 17px; color: #ffffff; display: block; border-radius: 4px;\">Confirmar registro</a>\r\n" + 
     			"										</td>\r\n" + 
     			"									</tr>\r\n" + 
     			"								</table>\r\n" + 
