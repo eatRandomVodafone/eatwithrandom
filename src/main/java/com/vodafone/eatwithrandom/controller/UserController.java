@@ -26,7 +26,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/eatwithrandom")
-@CrossOrigin(origins = "http://18.185.48.95:80")
+@CrossOrigin(origins = "*")
 public class UserController {
 	
 	@Autowired
