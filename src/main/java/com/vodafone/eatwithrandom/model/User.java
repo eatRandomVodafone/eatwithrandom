@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.vodafone.eatwithrandom.enums.Status;
 
 @Document(collection = "users")
 @JsonPropertyOrder({"userId", "username", "password", "name", "department", "role", "comment", "status"})
@@ -29,7 +30,7 @@ public class User implements Serializable{
     @NotNull    
     private String role;    
     @NotNull    
-    private String status;
+    private String status = Status.STANDBY.toString();
     
     private String comment;
     
