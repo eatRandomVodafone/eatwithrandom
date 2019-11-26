@@ -9,10 +9,6 @@ public class RegisterQueueDTO {
 	
 	private String horario;
 	
-	private String rol;
-	
-	private String area;
-	
 	
 	public String getQueue() {
 		return queue;
@@ -32,20 +28,4 @@ public class RegisterQueueDTO {
 	public void setHorario(String horario) {
 		this.horario = horario;
 	}
-	public String getRol() {
-		return rol;
-	}
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
-	public String getArea() {
-		return area;
-	}
-	public void setArea(String area) {
-		this.area = area;
-	}
-	
-	
-	
-
 }
