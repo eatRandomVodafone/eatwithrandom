@@ -11,7 +11,6 @@ import com.vodafone.eatwithrandom.exception.CustomException;
 import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.repository.PoolGrupalRepository;
-import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.security.JwtTokenProvider;
 
 @Service
@@ -35,7 +34,7 @@ public class PoolService {
 		  if (usuario != null) {
 			  PoolGrupal usuarioGrupal = new PoolGrupal();
 			  usuarioGrupal.setUserId(usuario.getUserId());
-			  usuarioGrupal.setHoraComida(horario);  
+			  usuarioGrupal.setHour(horario);  
 			  poolGrupalRepository.saveUserPoolGroup(usuarioGrupal);
 			  
 			  //Actualizar JWT

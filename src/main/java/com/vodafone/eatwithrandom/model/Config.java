@@ -1,29 +1,28 @@
 
 package com.vodafone.eatwithrandom.model;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
+
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "config")
 public class Config {
 
     @NotNull    
-    private String min_grupo;
+    private String minUserTable;
     @NotNull    
     private ArrayList<Mesa> mesas;
     @NotNull
     private ArrayList<String> horarios;
+    
 
-	public String getMinPersonasGrupo() {
-		return min_grupo;
+	public String getMinUserTable() {
+		return minUserTable;
 	}
-	public void setMinPersonasGrupo(String minPersonasGrupo) {
-		this.min_grupo = minPersonasGrupo;
+	public void setMinUserTable(String minUserTable) {
+		this.minUserTable = minUserTable;
 	}
 	public ArrayList<Mesa> getMesas() {
 		return mesas;
@@ -36,6 +35,5 @@ public class Config {
 	}
 	public void setHorarios(ArrayList<String> horarios) {
 		this.horarios = horarios;
-	}
-    
+	}    
 }

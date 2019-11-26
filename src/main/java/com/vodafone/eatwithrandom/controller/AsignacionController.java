@@ -1,16 +1,13 @@
 package com.vodafone.eatwithrandom.controller;
 
-import com.vodafone.eatwithrandom.dto.UserResponseDTO;
-import com.vodafone.eatwithrandom.service.AssignService;
-import com.vodafone.eatwithrandom.service.StatusService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.vodafone.eatwithrandom.service.AssignService;
 
 @RestController
 @RequestMapping("/eatwithrandom")
@@ -21,6 +18,7 @@ public class AsignacionController {
 	private AssignService assignService;
 	
 
+	// Este es el rest de assignedTable (9)
     @GetMapping("/asignar")
     public ResponseEntity<?> asignarMesa(){
     	
@@ -29,5 +27,7 @@ public class AsignacionController {
     	
     	return ResponseEntity.ok().build();
     }
+    
+    //TODO: Crear el rest de getInfoTable (2)
 
 }

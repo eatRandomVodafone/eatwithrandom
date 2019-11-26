@@ -45,7 +45,7 @@ public class StatusService {
     		//Checkear si está en pool grupo
     		Optional<PoolGrupal> userPool = poolGrupalRepository.findUser(optionalUser.get().getUserId());
     		if (userPool.isPresent()) {
-    			status = "esperando_grupo_" + userPool.get().getHoraComida();    		
+    			status = "esperando_grupo_" + userPool.get().getHour();    		
     		}
     		else {
 	        	//Checkear si está en reserva grupo
@@ -54,7 +54,7 @@ public class StatusService {
 	    			status = "mesaAsignada_grupo_" + reservaGrupal.get().getIdMesa();
 	    			for (String u : reservaGrupal.get().getUserId()) {
 	    				User user = userRepository.findById(u).get();
-		    			String info = user.getName() + "%" + user.getRol() + "%" + user.getBio();
+		    			String info = user.getName() + "%" + user.getRole() + "%" + user.getComment();
 		    			detalleAsignacion.add(info);
 	    			}
 

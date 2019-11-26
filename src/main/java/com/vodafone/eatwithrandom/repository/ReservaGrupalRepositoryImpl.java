@@ -1,22 +1,16 @@
 package com.vodafone.eatwithrandom.repository;
 
-import com.vodafone.eatwithrandom.repository.UserRepository;
-import com.vodafone.eatwithrandom.model.Mesa;
-import com.vodafone.eatwithrandom.model.PoolGrupal;
-import com.vodafone.eatwithrandom.model.ReservaGrupal;
-import com.vodafone.eatwithrandom.model.User;
+import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import com.vodafone.eatwithrandom.model.ReservaGrupal;
 
 @Repository
 public class ReservaGrupalRepositoryImpl implements ReservaGrupalRepository{
@@ -38,6 +32,10 @@ public class ReservaGrupalRepositoryImpl implements ReservaGrupalRepository{
     	Optional<ReservaGrupal> reservaGrupal = Optional.ofNullable(d);
         return reservaGrupal;
 
+    }
+    
+    public void saveReserva(ReservaGrupal reserva) {
+    	this.mongoOperations.save(reserva);
     }
 
 }

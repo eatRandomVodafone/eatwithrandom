@@ -1,22 +1,18 @@
 package com.vodafone.eatwithrandom.repository;
 
-import com.vodafone.eatwithrandom.repository.UserRepository;
-import com.vodafone.eatwithrandom.utils.RandomString;
-import com.vodafone.eatwithrandom.model.PoolGrupal;
-import com.vodafone.eatwithrandom.model.TempUser;
-import com.vodafone.eatwithrandom.model.User;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-import java.nio.charset.Charset;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import com.vodafone.eatwithrandom.model.TempUser;
+import com.vodafone.eatwithrandom.model.User;
+import com.vodafone.eatwithrandom.utils.RandomString;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository{

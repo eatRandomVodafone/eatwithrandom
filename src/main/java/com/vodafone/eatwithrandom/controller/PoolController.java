@@ -34,6 +34,9 @@ public class PoolController {
 	@Autowired
     private PoolService poolService;
 	
+	// - Este es el rest que inserta en la cola de pool (3), Hay que añadirle el action correspodiente (UP)
+	// - También controlamos con este rest, las cancelaciones de busqueda y asignación (DOWN), mirando el estado 
+	// en el que esta el usuario (5)
 	@PostMapping("/registerQueue")
     public UserResponseDTO postsignup(
     		@RequestBody RegisterQueueDTO queue,

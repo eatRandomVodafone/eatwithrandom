@@ -1,11 +1,10 @@
 package com.vodafone.eatwithrandom.repository;
 
-import com.vodafone.eatwithrandom.model.PoolGrupal;
-import com.vodafone.eatwithrandom.model.TempUser;
-import com.vodafone.eatwithrandom.model.User;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.vodafone.eatwithrandom.model.TempUser;
+import com.vodafone.eatwithrandom.model.User;
 
 public interface UserRepository{
 

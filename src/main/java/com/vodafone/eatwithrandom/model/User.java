@@ -1,18 +1,17 @@
 
 package com.vodafone.eatwithrandom.model;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 @Document(collection = "users")
-@JsonPropertyOrder({"userId", "username", "password", "name", "area", "rol", "aficiones", "alergias", "idiomaPrefer", "horaPrefer", "bio", "nextDados", "asignaciones", "negativos"})
+@JsonPropertyOrder({"userId", "username", "password", "name", "department", "role", "comment", "status"})
 public class User implements Serializable{
 
 	private static final long serialVersionUID = -7788619177798333712L;
@@ -26,25 +25,13 @@ public class User implements Serializable{
     @NotNull    
     private String name;
     @NotNull    
-    private String area;
+    private String department;
     @NotNull    
-    private String rol;
-        
-    private ArrayList<String> aficiones;
-        
-    private ArrayList<String> alergias;
-        
-    private String horaPrefer;
-        
-    private String idiomaPrefer;
+    private String role;    
     @NotNull    
-    private String bio;
-    @NotNull    
-    private int nextDados;
-    @NotNull    
-    private int asignaciones;
-    @NotNull    
-    private int negativos;
+    private String status;
+    
+    private String comment;
     
 	public String getUserId() {
 		return userId;
@@ -70,65 +57,28 @@ public class User implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getArea() {
-		return area;
+	public String getDepartment() {
+		return department;
 	}
-	public void setArea(String area) {
-		this.area = area;
+	public void setDepartment(String department) {
+		this.department = department;
 	}
-	public String getRol() {
-		return rol;
+	public String getRole() {
+		return role;
 	}
-	public void setRol(String rol) {
-		this.rol = rol;
+	public void setRole(String role) {
+		this.role = role;
 	}
-	public ArrayList<String> getAficiones() {
-		return aficiones;
+	public String getComment() {
+		return comment;
 	}
-	public void setAficiones(ArrayList<String> aficiones) {
-		this.aficiones = aficiones;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
-	public ArrayList<String> getAlergias() {
-		return alergias;
+	public String getStatus() {
+		return status;
 	}
-	public void setAlergias(ArrayList<String> alergias) {
-		this.alergias = alergias;
+	public void setStatus(String status) {
+		this.status = status;
 	}
-	public String getHoraPrefer() {
-		return horaPrefer;
-	}
-	public void setHoraPrefer(String horaPrefer) {
-		this.horaPrefer = horaPrefer;
-	}
-	public String getIdiomaPrefer() {
-		return idiomaPrefer;
-	}
-	public void setIdiomaPrefer(String idiomaPrefer) {
-		this.idiomaPrefer = idiomaPrefer;
-	}
-	public String getBio() {
-		return bio;
-	}
-	public void setBio(String bio) {
-		this.bio = bio;
-	}
-	public int getNextDados() {
-		return nextDados;
-	}
-	public void setNextDados(int nextDados) {
-		this.nextDados = nextDados;
-	}
-	public int getAsignaciones() {
-		return asignaciones;
-	}
-	public void setAsignaciones(int asignaciones) {
-		this.asignaciones = asignaciones;
-	}
-	public int getNegativos() {
-		return negativos;
-	}
-	public void setNegativos(int negativos) {
-		this.negativos = negativos;
-	}
-    
 }

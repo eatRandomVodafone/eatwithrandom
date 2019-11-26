@@ -1,12 +1,8 @@
 package com.vodafone.eatwithrandom.security;
 
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -16,16 +12,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.vodafone.eatwithrandom.exception.CustomException;
+import com.vodafone.eatwithrandom.model.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import com.vodafone.eatwithrandom.exception.CustomException;
-import com.vodafone.eatwithrandom.model.User;
 
 @Component
 public class JwtTokenProvider {
@@ -54,21 +50,12 @@ public class JwtTokenProvider {
     claims.put("usr", user.getUsername());
     claims.put("sec", user.getPassword());
     claims.put("name", user.getName());
-    claims.put("area", user.getArea());
-    claims.put("rol", user.getRol());
-    claims.put("bio", user.getBio());
+    claims.put("department", user.getDepartment());
+    claims.put("role", user.getRole());
+    claims.put("status", user.getStatus());
     
-    if (user.getAficiones() != null && !user.getAficiones().isEmpty()) {
-    	claims.put("aficiones", user.getAficiones());
-    }
-    if (user.getAlergias() != null && !user.getAlergias().isEmpty()) {
-    	claims.put("alergias", user.getAlergias());
-    }
-    if (user.getHoraPrefer() != null) {
-    	claims.put("horaPrefer", user.getHoraPrefer());
-    }
-    if (user.getIdiomaPrefer() != null) {
-    	claims.put("idiomaPrefer", user.getIdiomaPrefer());
+    if (user.getComment() != null && !user.getComment().isEmpty()) {
+    	claims.put("comment", user.getComment());
     }
 
     Date now = new Date();
@@ -99,25 +86,15 @@ public class JwtTokenProvider {
       user.setUsername(claims.get("usr").toString());
       user.setPassword(claims.get("sec").toString());
       user.setName(claims.get("name").toString());
-      user.setArea(claims.get("area").toString());
-      user.setRol(claims.get("rol").toString());
-      user.setBio(claims.get("bio").toString());
+      user.setDepartment(claims.get("department").toString());
+      user.setRole(claims.get("role").toString());
+      user.setStatus(claims.get("status").toString());
       
-      ArrayList<String> aux = new ArrayList<String>();      
+      String aux = new String();      
       
       if (claims.get("aficiones") != null) {
-    	  aux = (ArrayList) claims.get("aficiones");
-    	  user.setAficiones(aux);
-      }
-      if (claims.get("alergias") != null) {
-    	  aux = (ArrayList) claims.get("alergias");
-    	  user.setAlergias(aux);
-      }
-      if (claims.get("horaPrefer") != null) {
-    	  user.setHoraPrefer(claims.get("horaPrefer").toString());
-      }
-      if (claims.get("idiomaPrefer") != null) {
-    	  user.setIdiomaPrefer(claims.get("idiomaPrefer").toString());
+    	  aux = (String) claims.get("aficiones");
+    	  user.setComment(aux);
       }
       
       return user;

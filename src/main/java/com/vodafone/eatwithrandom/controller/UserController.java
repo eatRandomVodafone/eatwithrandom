@@ -57,6 +57,7 @@ public class UserController {
     	return ResponseEntity.ok().build();
     }
     
+    // Falta hacer lo de las exception en este caso
     @GetMapping("/postsignup/{token}")
     public ResponseEntity<?> postsignup(@PathVariable String token) {
         
@@ -73,5 +74,9 @@ public class UserController {
             return null;
         }
     }
+    
+    //TODO: Rest de update profile (6)
+    
+    //TODO: Rest de update password (6)
 
 }

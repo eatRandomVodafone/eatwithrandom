@@ -13,22 +13,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"userId", "horaComida"})
 public class PoolGrupal implements Serializable{
 
-    @NotNull    
+	private static final long serialVersionUID = -600296445414732290L;
+	
+	@NotNull    
     private String userId;
     @NotNull    
-    private String horaComida;
+    private String hour;
+    
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getHoraComida() {
-		return horaComida;
+	public String getHour() {
+		return hour;
 	}
-	public void setHoraComida(String horaComida) {
-		this.horaComida = horaComida;
-	}
-	
-    
+	public void setHour(String hour) {
+		this.hour = hour;
+	}    
 }

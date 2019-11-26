@@ -1,21 +1,16 @@
 package com.vodafone.eatwithrandom.repository;
 
-import com.vodafone.eatwithrandom.repository.UserRepository;
-import com.vodafone.eatwithrandom.model.Mesa;
-import com.vodafone.eatwithrandom.model.PoolGrupal;
-import com.vodafone.eatwithrandom.model.ReservaGrupal;
-import com.vodafone.eatwithrandom.model.User;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
+
+import com.vodafone.eatwithrandom.model.PoolGrupal;
 
 @Repository
 public class PoolGrupalRepositoryImpl implements PoolGrupalRepository{
@@ -51,13 +46,9 @@ public class PoolGrupalRepositoryImpl implements PoolGrupalRepository{
     }
     
     public Optional<List<PoolGrupal>> findByHour(String hour) {
-    	List<PoolGrupal> d = this.mongoOperations.find(new Query(Criteria.where("horaComida").is(hour)), PoolGrupal.class);
+    	List<PoolGrupal> d = this.mongoOperations.find(new Query(Criteria.where("hour").is(hour)), PoolGrupal.class);
     	Optional<List<PoolGrupal>> optionalPoolGrupals = Optional.ofNullable(d);
         return optionalPoolGrupals;
-    }
-    
-    public void saveReserva(ReservaGrupal reserva) {
-    	this.mongoOperations.save(reserva);
     }
     
     public void deleteAll() {

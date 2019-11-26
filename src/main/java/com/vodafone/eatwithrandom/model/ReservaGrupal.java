@@ -2,7 +2,6 @@
 package com.vodafone.eatwithrandom.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
@@ -13,8 +12,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Document(collection = "reservaGrupal")
-@JsonPropertyOrder({"reservaGrupalId", "fecha", "userId", "mesaId"})
+@JsonPropertyOrder({"reservaGrupalId", "fecha", "userId", "idMesa"})
 public class ReservaGrupal implements Serializable{
+	
+	private static final long serialVersionUID = -1582625775933912690L;
 	
 	@Id
     private String reservaGrupalId;
@@ -23,7 +24,8 @@ public class ReservaGrupal implements Serializable{
     @NotNull    
     private ArrayList<String> userId;
     @NotNull    
-    private String mesaId;
+    private String idMesa;
+    
 	public String getReservaGrupalId() {
 		return reservaGrupalId;
 	}
@@ -43,9 +45,9 @@ public class ReservaGrupal implements Serializable{
 		this.userId = userId;
 	}
 	public String getIdMesa() {
-		return mesaId;
+		return idMesa;
 	}
-	public void setIdMesa(String mesaId) {
-		this.mesaId = mesaId;
-	}
+	public void setIdMesa(String idMesa) {
+		this.idMesa = idMesa;
+	}   
 }

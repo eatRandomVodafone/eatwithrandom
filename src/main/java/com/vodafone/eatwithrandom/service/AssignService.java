@@ -7,16 +7,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.vodafone.eatwithrandom.model.Config;
 import com.vodafone.eatwithrandom.model.Mesa;
 import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.ReservaGrupal;
-import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.repository.ConfigRepository;
 import com.vodafone.eatwithrandom.repository.PoolGrupalRepository;
+import com.vodafone.eatwithrandom.repository.ReservaGrupalRepository;
 import com.vodafone.eatwithrandom.repository.UserRepository;
 
 @Service
@@ -24,6 +23,9 @@ public class AssignService {
 	
 	@Autowired
 	private PoolGrupalRepository poolGrupalRepository;
+	
+	@Autowired
+	private ReservaGrupalRepository reservaGrupalRepository;
 	
 	@Autowired
 	private ConfigRepository configRepository;
@@ -44,7 +46,7 @@ public class AssignService {
 		Optional<List<Config>> config = configRepository.getConfig();
 		if (config.isPresent()) {
 			
-			Integer min_grupo = Integer.parseInt(config.get().get(0).getMinPersonasGrupo());
+			Integer min_grupo = Integer.parseInt(config.get().get(0).getMinUserTable());
 			ArrayList<Mesa> mesas = config.get().get(0).getMesas();
 			ArrayList<String> horarios = config.get().get(0).getHorarios();
 			
@@ -78,7 +80,7 @@ public class AssignService {
 									break;
 							}
 							reservaMesa.setUserId(usuariosReserva);
-							poolGrupalRepository.saveReserva(reservaMesa);
+							reservaGrupalRepository.saveReserva(reservaMesa);
 							
 							//Envío mail a los usuarios asignados
 							for(String userId : reservaMesa.getUserId()) {

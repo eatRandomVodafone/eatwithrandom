@@ -18,6 +18,7 @@ public class StatusController {
 	@Autowired
 	private StatusService statusService;
 
+	// Hay que rehacer este rest, lo único que tiene que hacer es actualizar el JWT del usuario (4)
     @GetMapping("/status")
     public UserResponseDTO getStatus(
     		@RequestHeader("Authorization") String bearerToken){

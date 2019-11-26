@@ -10,8 +10,9 @@ import javax.validation.constraints.NotNull;
 @Document(collection = "tempusers")
 public class TempUser implements Serializable{
 
-
-    @NotNull
+	private static final long serialVersionUID = -5937373645204642129L;
+	
+	@NotNull
     private String jwt;
     @NotNull
     private String token;
@@ -28,7 +29,5 @@ public class TempUser implements Serializable{
 	}
 	public void setToken(String token) {
 		this.token = token;
-	}
-	
-    
+	}    
 }
