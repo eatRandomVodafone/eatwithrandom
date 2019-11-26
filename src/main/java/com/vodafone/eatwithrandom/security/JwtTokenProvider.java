@@ -92,8 +92,8 @@ public class JwtTokenProvider {
       
       String aux = new String();      
       
-      if (claims.get("aficiones") != null) {
-    	  aux = (String) claims.get("aficiones");
+      if (claims.get("comment") != null) {
+    	  aux = (String) claims.get("comment");
     	  user.setComment(aux);
       }
       
