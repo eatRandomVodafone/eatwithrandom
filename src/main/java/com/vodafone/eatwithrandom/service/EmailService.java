@@ -19,7 +19,7 @@ public class EmailService {
 	@Value("${mail.remitenteMail:eatrandomvodafone}")
 	private String remitente = "";
 	
-	@Value("${mail.passwordMail:Vodafone2019}")
+	@Value("${mail.passwordMail:bxjetfbreodfsvtz}")
 	private String password;
 	
     

@@ -24,8 +24,7 @@ logging:
           
 mail:
   remitente:  eatrandomvodafone
-  password:  Vodafone2019
-  
+  password:  bxjetfbreodfsvtz  
 # HTTP Server
 server:
   port: 4444   # HTTP (Tomcat) port
