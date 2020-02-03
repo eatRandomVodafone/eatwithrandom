@@ -53,6 +53,7 @@ public class JwtTokenProvider {
     claims.put("department", user.getDepartment());
     claims.put("role", user.getRole());
     claims.put("status", user.getStatus());
+    claims.put("userId", user.getUserId());
     
     if (user.getComment() != null && !user.getComment().isEmpty()) {
     	claims.put("comment", user.getComment());
@@ -89,6 +90,7 @@ public class JwtTokenProvider {
       user.setDepartment(claims.get("department").toString());
       user.setRole(claims.get("role").toString());
       user.setStatus(claims.get("status").toString());
+      user.setUserId(claims.get("userId").toString());
       
       String aux = new String();      
       

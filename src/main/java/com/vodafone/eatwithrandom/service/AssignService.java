@@ -1,18 +1,15 @@
 package com.vodafone.eatwithrandom.service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.vodafone.eatwithrandom.dto.InfoTable;
+import com.vodafone.eatwithrandom.exception.CustomException;
+import com.vodafone.eatwithrandom.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.vodafone.eatwithrandom.model.Config;
-import com.vodafone.eatwithrandom.model.Mesa;
-import com.vodafone.eatwithrandom.model.PoolGrupal;
-import com.vodafone.eatwithrandom.model.ReservaGrupal;
 import com.vodafone.eatwithrandom.repository.ConfigRepository;
 import com.vodafone.eatwithrandom.repository.PoolGrupalRepository;
 import com.vodafone.eatwithrandom.repository.ReservaGrupalRepository;
@@ -35,7 +32,10 @@ public class AssignService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
+
+	@Autowired
+	private UserContextService userContextService;
+
 	//@Scheduled(cron = "0 0 12 * * MON-FRI")
 	public void asignarMesa() {
 		
@@ -414,4 +414,27 @@ public class AssignService {
 
 	}
 
+	public InfoTable readInfoTable() {
+		User currentUser = userRepository.findOne(this.userContextService.getCurrentUser().getUsername())
+				.orElseThrow(() -> new CustomException("Cannot find user (" + this.userContextService.getCurrentUser().getUsername() + ")", HttpStatus.NOT_FOUND));
+		ReservaGrupal reservaGrupal = this.reservaGrupalRepository.findByUser(currentUser.getUserId())
+				.orElseThrow(() -> new CustomException("No reservation found for (" + currentUser.getUserId() + ") user", HttpStatus.NOT_FOUND));
+
+		InfoTable infoTable = new InfoTable();
+		infoTable.setIdMesa(reservaGrupal.getIdMesa());
+		infoTable.setDate(reservaGrupal.getFecha());
+
+		ArrayList<User> users = new ArrayList<>();
+		reservaGrupal.getUserId().forEach(userId -> {
+			User user = userRepository.findById(userId)
+					.orElseThrow(() -> new CustomException("Cannot find users for (" + reservaGrupal.getReservaGrupalId() + ") reservation", HttpStatus.NOT_FOUND));
+			user.setUserId(null);
+			user.setPassword(null);
+			user.setStatus(null);
+			infoTable.setUsers(users);
+			users.add(user);
+		});
+
+		return infoTable;
+	}
 }
