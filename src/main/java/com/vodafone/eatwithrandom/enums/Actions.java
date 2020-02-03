@@ -2,7 +2,9 @@ package com.vodafone.eatwithrandom.enums;
 
 public enum Actions {
 	UP("UP"),
-	DOWN("DOWN");
+	DOWN("DOWN"),
+	UPDATEPROFILE("updateprofile"),
+	UPDATEPASSWORD("updatepassword");
 	
 	private final String text;
 
