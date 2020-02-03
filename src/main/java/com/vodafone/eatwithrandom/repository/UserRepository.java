@@ -3,6 +3,7 @@ package com.vodafone.eatwithrandom.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.vodafone.eatwithrandom.model.TempUser;
 import com.vodafone.eatwithrandom.model.User;
 
 public interface UserRepository{
@@ -47,6 +48,26 @@ public interface UserRepository{
      * @return
      */
     public Optional<User> checkPassword (String username, String password);
+    
+    /**
+     * 
+     * @param jwt
+     * @return
+     */
+    public String saveTempUser(String jwt);
+    
+    /**
+     * 
+     * @param token
+     * @return
+     */
+    public Optional<TempUser> getTempUser(String token);
+    
+    /**
+     * 
+     * @param tempuser
+     */
+    public void deleteTempUser(TempUser tempuser);
     
     /**
      * 
