@@ -25,6 +25,7 @@ logging:
 mail:
   remitente:  eatrandomvodafone
   password:  bxjetfbreodfsvtz  
+  endPointTemplate: http://localhost:4444
 # HTTP Server
 server:
   port: 4444   # HTTP (Tomcat) port
