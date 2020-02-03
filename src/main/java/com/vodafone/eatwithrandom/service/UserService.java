@@ -7,21 +7,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.vodafone.eatwithrandom.exception.CustomException;
-
-import com.vodafone.eatwithrandom.model.PoolGrupal;
 
 import com.vodafone.eatwithrandom.model.TempUser;
-
 import com.vodafone.eatwithrandom.model.User;
+import com.vodafone.eatwithrandom.repository.TempUserRepository;
 import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.security.JwtTokenProvider;
+
+import com.vodafone.eatwithrandom.exception.CustomException;
 
 @Service
 public class UserService {
 
   @Autowired
   private UserRepository userRepository;
+  
+  @Autowired
+  private TempUserRepository tempUserRepository;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -45,12 +47,12 @@ public class UserService {
     	  throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
-  public void signup(User user) {
+  public String signup(User user) {
     if (!userRepository.findOne(user.getUsername()).isPresent()) {
     	user.setPassword(passwordEncoder.encode(user.getPassword()));
     	//Check patron usuario
     	String jwt = jwtTokenProvider.createToken(user);
-    	String token = userRepository.saveTempUser(jwt);
+    	String token = tempUserRepository.saveTempUser(jwt);
     	//Send mail
     	emailService.sendEmail("Confirmación de registro", "<!DOCTYPE html>\r\n" + 
     			"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\r\n" + 
@@ -370,7 +372,9 @@ public class UserService {
     			"    </center>\r\n" + 
     			"</body>\r\n" + 
     			"</html>", user.getUsername());
+    	return token;
     } else {
+    	//TODO: definir con el FRONT el formato de la excepción
       throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
@@ -378,14 +382,14 @@ public class UserService {
   public String postsignup(String token) {
       if (token != null) {
     	  //Recuperamos el usuario temporal
-    	  Optional<TempUser> tempUser = userRepository.getTempUser(token);
+    	  Optional<TempUser> tempUser = tempUserRepository.getTempUser(token);
     	  if (tempUser.isPresent()) {
     		  //Obtenemos el usuario del jwt
               User user = jwtTokenProvider.getUser(tempUser.get().getJwt());
               //Creamos el usuario en la BD
               userRepository.saveUser(user);
               //Borramos el usuario temporal
-              userRepository.deleteTempUser(tempUser.get());
+              tempUserRepository.deleteTempUser(tempUser.get());
               return tempUser.get().getJwt(); 
     	  }
     	  else {

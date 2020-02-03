@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vodafone.eatwithrandom.dto.Login;
 import com.vodafone.eatwithrandom.dto.UserResponseDTO;
@@ -52,9 +50,12 @@ public class UserController {
     public ResponseEntity<?> signup(
     		@RequestBody User user) {
     	
-    	userService.signup(user);
-
-    	return ResponseEntity.ok().build();
+    	String token = userService.signup(user);
+    	
+    	if (token != null)
+    		return ResponseEntity.ok().build();
+    	else
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
     
     // Falta hacer lo de las exception en este caso
