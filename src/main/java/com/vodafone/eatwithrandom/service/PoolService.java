@@ -1,16 +1,19 @@
 package com.vodafone.eatwithrandom.service;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.vodafone.eatwithrandom.enums.Status;
 import com.vodafone.eatwithrandom.exception.CustomException;
 import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.repository.PoolGrupalRepository;
+import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.security.JwtTokenProvider;
 
 @Service
@@ -24,6 +27,9 @@ public class PoolService {
 
 	  @Autowired
 	  private JwtTokenProvider jwtTokenProvider;
+	  
+	  @Autowired
+	  private UserRepository userRepository;
 	
 	public String insertQeueF2F(User usuario) {
 		 return null;
@@ -32,16 +38,24 @@ public class PoolService {
 	public String insertQeueGroup(User usuario, String horario, String bearerToken) {
 		  String token = null;
 		  if (usuario != null) {
-			  PoolGrupal usuarioGrupal = new PoolGrupal();
-			  usuarioGrupal.setUserId(usuario.getUserId());
-			  usuarioGrupal.setHour(horario);  
-			  poolGrupalRepository.saveUserPoolGroup(usuarioGrupal);
-			  
-			  //Actualizar JWT
-			  HashMap<String, Object> claimsMap = new HashMap<String, Object>();
-			  claimsMap.put("status", "esperando_grupo_" + horario);
-			  token = jwtTokenProvider.updateToken(bearerToken, claimsMap);
-			  
+			  Optional<PoolGrupal> poolGrupal = poolGrupalRepository.findUser(usuario.getUserId());
+			  if (poolGrupal.isPresent()) {
+				  throw new CustomException("User already at pool", HttpStatus.UNPROCESSABLE_ENTITY);
+			  }
+			  else {
+				  PoolGrupal usuarioGrupal = new PoolGrupal();
+				  usuarioGrupal.setUserId(usuario.getUserId());
+				  usuarioGrupal.setHour(horario);  
+				  poolGrupalRepository.saveUserPoolGroup(usuarioGrupal);
+				  
+				  //Actualizamos STATUS
+				  usuario.setStatus(Status.WAITING.toString());
+		    	  userRepository.updateUser(usuario);
+		    	  
+		    	  //Actualizamos JWT
+		    	  token = jwtTokenProvider.createToken(usuario);
+			  }
+
 	        return token;
 	    } else {
 	        throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
@@ -57,10 +71,12 @@ public class PoolService {
 		  if (usuario != null) {
 			  poolGrupalRepository.deleteUserPoolGroup(usuario.getUserId());
 			  
-			  //Actualizar JWT
-			  HashMap<String, Object> claimsMap = new HashMap<String, Object>();
-			  claimsMap.put("status", null);
-			  token = jwtTokenProvider.updateToken(bearerToken, claimsMap);
+			  //Actualizamos STATUS
+			  usuario.setStatus(Status.STANDBY.toString());
+	    	  userRepository.updateUser(usuario);
+	    	  
+	    	  //Actualizamos JWT
+	    	  token = jwtTokenProvider.createToken(usuario);
 			  
 	        return token;
 	    } else {

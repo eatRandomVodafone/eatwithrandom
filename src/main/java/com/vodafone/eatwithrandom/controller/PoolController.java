@@ -19,6 +19,7 @@ import com.vodafone.eatwithrandom.model.User;
 import com.vodafone.eatwithrandom.repository.UserRepository;
 import com.vodafone.eatwithrandom.service.PoolService;
 import com.vodafone.eatwithrandom.service.UserContextService;
+import com.vodafone.eatwithrandom.enums.Status;
 
 @RestController
 @RequestMapping("/eatwithrandom")
@@ -51,22 +52,35 @@ public class PoolController {
     	if (optionalUser.isPresent()) {
     		User user = optionalUser.get();
     		
-    		if(queue.getAction().equalsIgnoreCase(Actions.UP.toString())) {
+    		//Dar de alta en la cola pool - UP
+    		if(queue.getAction() != null && queue.getAction().equalsIgnoreCase(Actions.UP.toString()) || 
+    				user.getStatus().equals(Status.STANDBY.toString())) {
         		if(queue.getQueue().equalsIgnoreCase(Queue.FACETOFACE.toString())) {	
-        			jwt = poolService.insertQeueF2F(user);
+        			//jwt = poolService.insertQeueF2F(user);
         		}
         		else if(queue.getQueue().equalsIgnoreCase(Queue.GROUP.toString())) {
         			jwt = poolService.insertQeueGroup(user, queue.getHorario(), bearerToken);
         		}
         		
-        	} else if(queue.getAction().equalsIgnoreCase(Actions.DOWN.toString())) {
+        	} 
+    		//Eliminar de la cola pool - DOWN
+    		else if(queue.getAction() != null && queue.getAction().equalsIgnoreCase(Actions.DOWN.toString()) ||
+    				user.getStatus().equals(Status.WAITING.toString())) {
         		if(queue.getQueue().equalsIgnoreCase(Queue.FACETOFACE.toString())) {	
-        			jwt = poolService.deleteQeueF2F(user);
+        			//jwt = poolService.deleteQeueF2F(user);
         		}
         		else if(queue.getQueue().equalsIgnoreCase(Queue.GROUP.toString())) {
         			jwt = poolService.deleteQeueGroup(user, bearerToken);
         		}
+        		
         	}
+    		//Eliminar de la cola asginación - CANCEL
+    		else if(queue.getAction() != null && queue.getAction().equalsIgnoreCase(Actions.CANCEL.toString()) ||
+    				user.getStatus().equals(Status.ASSIGNED.toString())) {
+        		//TODO
+        		
+        	}
+    		    		
     	}
         
     	response.setJwt(jwt);
