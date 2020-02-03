@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,6 +14,7 @@ import com.vodafone.eatwithrandom.enums.Status;
 
 @Document(collection = "users")
 @JsonPropertyOrder({"userId", "username", "password", "name", "department", "role", "comment", "status"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements Serializable{
 
 	private static final long serialVersionUID = -7788619177798333712L;
@@ -21,7 +23,7 @@ public class User implements Serializable{
     private String userId;
     @NotNull
     private String username;
-    @NotNull    
+    @NotNull
     private String password;
     @NotNull    
     private String name;

@@ -17,10 +17,10 @@ public interface UserRepository{
 
     /**
      * Find a user
-     * @param userId
+     * @param username
      * @return
      */
-    public Optional<User> findOne(String userId);
+    public Optional<User> findOne(String username);
 
     /**
      * save a new user
@@ -75,7 +75,6 @@ public interface UserRepository{
      * @return
      */
     public Optional<User> findById(String userId);
-    
 
 
 }
