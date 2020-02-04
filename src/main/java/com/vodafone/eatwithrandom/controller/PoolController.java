@@ -55,22 +55,22 @@ public class PoolController {
     		//Dar de alta en la cola pool - UP
     		if(queue.getAction() != null && queue.getAction().equalsIgnoreCase(Actions.UP.toString()) || 
     				user.getStatus().equals(Status.STANDBY.toString())) {
-        		if(queue.getQueue().equalsIgnoreCase(Queue.FACETOFACE.toString())) {	
-        			//jwt = poolService.insertQeueF2F(user);
-        		}
-        		else if(queue.getQueue().equalsIgnoreCase(Queue.GROUP.toString())) {
+    			if(queue.getQueue() == null || queue.getQueue().equalsIgnoreCase(Queue.GROUP.toString())) {
         			jwt = poolService.insertQeueGroup(user, queue.getHorario(), bearerToken);
+        		}
+    			else if(queue.getQueue().equalsIgnoreCase(Queue.FACETOFACE.toString())) {	
+        			//jwt = poolService.insertQeueF2F(user);
         		}
         		
         	} 
     		//Eliminar de la cola pool - DOWN
     		else if(queue.getAction() != null && queue.getAction().equalsIgnoreCase(Actions.DOWN.toString()) ||
     				user.getStatus().equals(Status.WAITING.toString())) {
-        		if(queue.getQueue().equalsIgnoreCase(Queue.FACETOFACE.toString())) {	
-        			//jwt = poolService.deleteQeueF2F(user);
-        		}
-        		else if(queue.getQueue().equalsIgnoreCase(Queue.GROUP.toString())) {
+    			if(queue.getQueue() == null || queue.getQueue().equalsIgnoreCase(Queue.GROUP.toString())) {
         			jwt = poolService.deleteQeueGroup(user, bearerToken);
+        		}
+    			else if(queue.getQueue().equalsIgnoreCase(Queue.FACETOFACE.toString())) {	
+        			//jwt = poolService.deleteQeueF2F(user);
         		}
         		
         	}
