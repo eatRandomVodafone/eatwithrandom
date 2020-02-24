@@ -15,7 +15,6 @@ import com.vodafone.eatwithrandom.model.Config;
 import com.vodafone.eatwithrandom.model.Mesa;
 import com.vodafone.eatwithrandom.model.PoolGrupal;
 import com.vodafone.eatwithrandom.model.ReservaGrupal;
-import com.vodafone.eatwithrandom.repository.ConfigRepository;
 import com.vodafone.eatwithrandom.repository.PoolGrupalRepository;
 import com.vodafone.eatwithrandom.repository.ReservaGrupalRepository;
 import com.vodafone.eatwithrandom.repository.UserRepository;
@@ -30,7 +29,7 @@ public class AssignService {
 	private ReservaGrupalRepository reservaGrupalRepository;
 	
 	@Autowired
-	private ConfigRepository configRepository;
+	private ConfigService configService;
 	
 	@Autowired
 	private EmailService emailService;
@@ -47,13 +46,12 @@ public class AssignService {
 		Date now = new Date();
 		String day = (1900+now.getYear()) + "/" + (1+now.getMonth()) + "/" + now.getDate();
 
-		
-		Optional<List<Config>> config = configRepository.getConfig();
-		if (config.isPresent()) {
+		Config config = configService.readConfig();
+		if (config != null) {
 			
-			Integer min_grupo = Integer.parseInt(config.get().get(0).getMinUserTable());
-			ArrayList<Mesa> mesas = config.get().get(0).getMesas();
-			ArrayList<String> horarios = config.get().get(0).getHorarios();
+			Integer min_grupo = Integer.parseInt(config.getMinUserTable());
+			ArrayList<Mesa> mesas = config.getMesas();
+			ArrayList<String> horarios = config.getHorarios();
 			
 			for (String h : horarios) {
 				Optional<List<PoolGrupal>> usersPool = poolGrupalRepository.findByHour(h);
@@ -63,7 +61,7 @@ public class AssignService {
 							.filter(m -> m.getHorarios().equals(h)
 					).collect(Collectors.toList());
 					
-					
+
 					Integer capacidad = mesasHora.stream()
 							.map(x -> x.getMaxPersonasMesa())
 							.reduce(0, (a, b) -> a + b);
@@ -86,7 +84,7 @@ public class AssignService {
 							}
 							reservaMesa.setUserId(usuariosReserva);
 							reservaGrupalRepository.saveReserva(reservaMesa);
-							
+
 							//Envío mail a los usuarios asignados
 							for(String userId : reservaMesa.getUserId()) {
 								//TODO: Falta crear el html y ver si necesitamos sustituir valores
@@ -98,16 +96,16 @@ public class AssignService {
 					else {
 						//Cuando tengo menos de mi capacidad
 					}
-							
-					
+
+
 				}
 			}
 
 			//Borrado del poolGrupal
 			poolGrupalRepository.deleteAll();
-			
-		}
 		
+		}
+
 
 	}
 
