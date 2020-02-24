@@ -33,7 +33,7 @@ public class EmailService {
 
 	public void sendEmail(String subject, String email, String template, ArrayList<String> values) {		
 
-		String body = createEmail(template, values.toArray(new String[values.size()]));
+		String body = createEmail(template, values);
 
 		Properties props = System.getProperties();
 		props.put("mail.smtp.host", "smtp.gmail.com"); // El servidor SMTP de Google
@@ -61,8 +61,10 @@ public class EmailService {
 		}
 	}
 
-	public String createEmail(String template, String[] values) {
+	public String createEmail(String template, ArrayList<String> values) {
 
+		String[] ArrayValues = null;
+		
 		try {
 			String pathFile = "classpath:template/" + template;
 			String html = "";
@@ -73,8 +75,12 @@ public class EmailService {
 			while ((html = b.readLine()) != null) {
 				htmltmp.append(html);
 			}
-
-			html = MessageFormat.format(htmltmp.toString(), values);
+			if(values != null) {
+				ArrayValues = values.toArray(new String[values.size()]);				
+			}
+			
+			html = MessageFormat.format(htmltmp.toString(), ArrayValues);
+			
 			b.close();
 			return html;
 		} catch (IOException e) {
