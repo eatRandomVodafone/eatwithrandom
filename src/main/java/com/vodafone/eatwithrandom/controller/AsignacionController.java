@@ -17,7 +17,7 @@ public class AsignacionController {
 	
 
 	// Este es el rest de assignedTable (9)
-    @GetMapping("/asignar")
+    @PostMapping("/asignar")
     public ResponseEntity<?> asignarMesa(){
 
     	assignService.asignarMesa();
