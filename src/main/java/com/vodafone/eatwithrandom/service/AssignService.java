@@ -8,7 +8,10 @@ import com.vodafone.eatwithrandom.exception.CustomException;
 import com.vodafone.eatwithrandom.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
 import com.vodafone.eatwithrandom.enums.subjectsEmail;
 import com.vodafone.eatwithrandom.model.Config;
@@ -20,6 +23,7 @@ import com.vodafone.eatwithrandom.repository.PoolGrupalRepository;
 import com.vodafone.eatwithrandom.repository.ReservaGrupalRepository;
 import com.vodafone.eatwithrandom.repository.UserRepository;
 
+@Slf4j
 @Service
 public class AssignService {
 	
@@ -40,13 +44,25 @@ public class AssignService {
 
 	@Autowired
 	private UserContextService userContextService;
+	
+	private static final long ONE_MINUTE = 60 * 1000L;
 
-	//@Scheduled(cron = "0 0 12 * * MON-FRI")
+	@Scheduled(cron = "0 0 12 * * MON-THU")
+	public void init() {
+		try {
+			asignarMesa();
+		} catch (Exception e) {
+			log.error("Error durante el proceso de asignación ");
+		}
+	}
+	
 	public void asignarMesa() {
+		
+		log.info("Inicio proceso de asignación");
 		
 		Date now = new Date();
 		String day = (1900+now.getYear()) + "/" + (1+now.getMonth()) + "/" + now.getDate();
-
+		
 		
 		Optional<List<Config>> config = configRepository.getConfig();
 		if (config.isPresent()) {
@@ -108,6 +124,7 @@ public class AssignService {
 			
 		}
 		
+		log.info("Fin proceso de asignación");
 
 	}
 
