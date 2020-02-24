@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class UserService {
 
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
+	
+	@Value("${mail.endPointTemplate:http://localhost:4444}")
+	private String endPoint;
 
 	public String signin(String username, String password) {
 		Optional<User> user = userRepository.findOne(username);
@@ -49,6 +53,8 @@ public class UserService {
 			String token = userRepository.saveTempUser(jwt);
 			
 			ArrayList<String> values = new ArrayList<String>();
+			
+			values.add(endPoint);
 			values.add(token);
 
 			emailService.sendEmail(subjectsEmail.SIGNUP.toString(), user.getUsername(), "signup.html", values);

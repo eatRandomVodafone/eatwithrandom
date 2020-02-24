@@ -31,15 +31,7 @@ public class EmailService {
 	@Value("${mail.passwordMail:bxjetfbreodfsvtz}")
 	private String password;
 
-	@Value("${mail.endPointTemplate:http://localhost:4444}")
-	private String endPoint;
-
-	public void sendEmail(String subject, String email, String template, ArrayList<String> values) {
-
-		if (values == null) {
-			values = new ArrayList<String>();
-		}
-		values.add(0, endPoint);
+	public void sendEmail(String subject, String email, String template, ArrayList<String> values) {		
 
 		String body = createEmail(template, values.toArray(new String[values.size()]));
 
