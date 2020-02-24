@@ -1,6 +1,7 @@
 package com.vodafone.eatwithrandom.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,21 @@ public class PoolService {
 	    } else {
 	        throw new CustomException("Invalid username supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 	    }
+	}
+
+
+	public List<PoolGrupal> readUsersByHour(String hour) {
+
+		Optional<List<PoolGrupal>> usersPool = poolGrupalRepository.findByHour(hour);
+		if (usersPool.isPresent()) {
+			return usersPool.get();
+		}
+
+		return null;
+	}
+
+	public void deleteAll() {
+		poolGrupalRepository.deleteAll();
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ConfigService {
@@ -28,4 +29,13 @@ public class ConfigService {
 		
 		return null;
     }
+
+    public List<Mesa> readMesasByHour(String horario) {
+    	return this.readConfig().getMesas().stream().filter(m -> m.getHorarios().equals(horario)).collect(Collectors.toList());
+	}
+
+    public int getMaxCapacidadTotalByHour(String horario) {
+    	List<Mesa> mesas = this.readMesasByHour(horario);
+    	return mesas.stream().mapToInt(Mesa::getMaxPersonasMesa).sum();
+	}
 }

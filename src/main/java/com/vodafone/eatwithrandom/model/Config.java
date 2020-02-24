@@ -11,18 +11,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Config {
 
     @NotNull    
-    private String minUserTable;
+    private String min_grupo;
     @NotNull    
     private ArrayList<Mesa> mesas;
     @NotNull
     private ArrayList<String> horarios;
-    
 
-	public String getMinUserTable() {
-		return minUserTable;
+	public String getMin_grupo() {
+		return min_grupo;
 	}
-	public void setMinUserTable(String minUserTable) {
-		this.minUserTable = minUserTable;
+
+	public void setMin_grupo(String min_grupo) {
+		this.min_grupo = min_grupo;
 	}
 	public ArrayList<Mesa> getMesas() {
 		return mesas;

@@ -26,8 +26,8 @@ import com.vodafone.eatwithrandom.repository.UserRepository;
 public class AssignService {
 
 	@Autowired
-	private PoolGrupalRepository poolGrupalRepository;
-
+	private PoolService poolService;
+	
 	@Autowired
 	private ReservaGrupalRepository reservaGrupalRepository;
 
@@ -64,63 +64,62 @@ public class AssignService {
 		Config config = configService.readConfig();
 		if (config != null) {
 
-			Integer min_grupo = Integer.parseInt(config.getMinUserTable());
-			ArrayList<Mesa> mesas = config.getMesas();
+			Integer min_grupo = Integer.parseInt(config.getMin_grupo());
 			ArrayList<String> horarios = config.getHorarios();
 
 			for (String h : horarios) {
-				Optional<List<PoolGrupal>> usersPool = poolGrupalRepository.findByHour(h);
-				if (usersPool.isPresent()) {
-					List<PoolGrupal> usuarios = usersPool.get();
-					ArrayList<Mesa> mesasHora = (ArrayList<Mesa>) mesas.stream()
-							.filter(m -> m.getHorarios().equals(h)
-							).collect(Collectors.toList());
+				List<PoolGrupal> pool = poolService.readUsersByHour(h);
+				Integer max_capacidad = configService.getMaxCapacidadTotalByHour(h);
 
-
-					Integer capacidad = mesasHora.stream()
-							.map(x -> x.getMaxPersonasMesa())
-							.reduce(0, (a, b) -> a + b);
+				if (pool != null) {
+					Integer num_com = Math.min(pool.size(), max_capacidad);
+					Integer num_mesas = num_com / min_grupo;
+					this.minimunInsertion();
 
 					//Cuando usuarios son mayores que la capacidad, voy llenando mesa a mesa
-					if (usuarios.size() >= capacidad) {
-						Integer max_mesa = 0;
-						int i = 0;
-						for (int j = 0; j < mesasHora.size(); j++) {
-							max_mesa = mesasHora.get(j).getMaxPersonasMesa();
-							ReservaGrupal reservaMesa = new ReservaGrupal();
-							reservaMesa.setFecha(day + " " + h);
-							reservaMesa.setIdMesa(mesasHora.get(j).getIdmesa());
-							ArrayList<String> usuariosReserva = new ArrayList<String>();
-							for (; i < usuarios.size(); i++) {
-								if (usuariosReserva.size() < max_mesa)
-									usuariosReserva.add(usuarios.get(i).getUserId());
-								else
-									break;
-							}
-							reservaMesa.setUserId(usuariosReserva);
-							reservaGrupalRepository.saveReserva(reservaMesa);
+					// if (usuarios.size() >= capacidad) {
+					// 	Integer max_mesa = 0;
+					// 	int i = 0;
+					// 	for (int j = 0; j < mesasHora.size(); j++) {
+					// 		max_mesa = mesasHora.get(j).getMaxPersonasMesa();
+					// 		ReservaGrupal reservaMesa = new ReservaGrupal();
+					// 		reservaMesa.setFecha(day + " " + h);
+					// 		reservaMesa.setIdMesa(mesasHora.get(j).getIdmesa());
+					// 		ArrayList<String> usuariosReserva = new ArrayList<String>();
+					// 		for (; i < usuarios.size(); i++) {
+					// 			if (usuariosReserva.size() < max_mesa)
+					// 				usuariosReserva.add(usuarios.get(i).getUserId());
+					// 			else
+					// 				break;
+					// 		}
+					// 		reservaMesa.setUserId(usuariosReserva);
+					// 		reservaGrupalRepository.saveReserva(reservaMesa);
 
-							//Envío mail a los usuarios asignados
-							for (String userId : reservaMesa.getUserId()) {
-								//TODO: Falta crear el html y ver si necesitamos sustituir valores
-								String email = userRepository.findById(userId).get().getUsername();
-								emailService.sendEmail(subjectsEmail.ASSIGNTABLE.toString(), email, "assignTable.html", null);
-							}
-						}
-					} else {
-						//Cuando tengo menos de mi capacidad
-					}
+					// 		//Envío mail a los usuarios asignados
+					// 		for (String userId : reservaMesa.getUserId()) {
+					// 			//TODO: Falta crear el html y ver si necesitamos sustituir valores
+					// 			String email = userRepository.findById(userId).get().getUsername();
+					// 			emailService.sendEmail(subjectsEmail.ASSIGNTABLE.toString(), email, "assignTable.html", null);
+					// 		}
+					// 	}
+					// } else {
+					//Cuando tengo menos de mi capacidad
+					// }
 
 
 				}
 			}
 
 			//Borrado del poolGrupal
-			poolGrupalRepository.deleteAll();
-
-			//log.info("Fin proceso de asignación");
+			poolService.deleteAll();
 
 		}
+
+			//log.info("Fin proceso de asignación");
+	}
+
+	private void minimunInsertion() {
+
 	}
 
 	public InfoTable readInfoTable() {
