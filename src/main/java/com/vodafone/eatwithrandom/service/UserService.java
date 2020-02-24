@@ -1,5 +1,6 @@
 package com.vodafone.eatwithrandom.service;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -117,5 +118,16 @@ public class UserService {
 			throw new CustomException("Password doesnt valid", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
+	}
+	
+	public void updateUserStatus() {
+		
+		List<User> userList = userRepository.findAll().get();
+		
+		for (User user : userList) 
+		{
+			user.setStatus("STANDBY");
+			userRepository.updateUser(user);
+		}	
 	}
 }
