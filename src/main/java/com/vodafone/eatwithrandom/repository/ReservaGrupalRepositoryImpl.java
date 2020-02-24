@@ -1,6 +1,7 @@
 package com.vodafone.eatwithrandom.repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,11 @@ public class ReservaGrupalRepositoryImpl implements ReservaGrupalRepository{
     public void saveReserva(ReservaGrupal reserva) {
     	this.mongoOperations.save(reserva);
     }
+    
+    public Optional<List<ReservaGrupal>> findAll() {
+    	List<ReservaGrupal> reservaGrupal = this.mongoOperations.find(new Query(), ReservaGrupal.class);
+        Optional<List<ReservaGrupal>> optionalReservaGrupal = Optional.ofNullable(reservaGrupal);
+        return optionalReservaGrupal;
+	}
 
 }
