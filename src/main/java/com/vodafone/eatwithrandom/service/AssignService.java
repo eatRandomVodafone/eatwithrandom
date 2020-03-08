@@ -57,24 +57,48 @@ public class AssignService {
 	public void asignarMesa() {
 
 		//log.info("Inicio proceso de asignación");
-
-		Date now = new Date();
-		String day = (1900 + now.getYear()) + "/" + (1 + now.getMonth()) + "/" + now.getDate();
-
 		Config config = configService.readConfig();
 		if (config != null) {
 
-			Integer min_grupo = Integer.parseInt(config.getMin_grupo());
+			ArrayList<ReservaGrupal> reservaGrupals = new ArrayList<>();
+			int min_grupo = Integer.parseInt(config.getMin_grupo());
 			ArrayList<String> horarios = config.getHorarios();
 
 			for (String h : horarios) {
 				List<PoolGrupal> pool = poolService.readUsersByHour(h);
 				Integer max_capacidad = configService.getMaxCapacidadTotalByHour(h);
+				Integer assigned = 0;
 
-				if (pool != null) {
+				if (pool != null && pool.size() >= min_grupo) {
 					Integer num_com = Math.min(pool.size(), max_capacidad);
-					Integer num_mesas = num_com / min_grupo;
-					this.minimunInsertion();
+					List<Mesa> mesasconfig = configService.readMesasByHour(h);
+					Integer num_mesas = Math.min(num_com / min_grupo, mesasconfig.size());
+					List<Mesa> mesas = mesasconfig.subList(0, num_mesas);
+					for (Mesa mesa: mesas) {
+						ReservaGrupal reservaGrupal = new ReservaGrupal();
+						reservaGrupal.setIdMesa(mesa.getIdmesa());
+						ArrayList<String> usersId = new ArrayList<>();
+						for (usersId.size(); usersId.size() < min_grupo; assigned++) {
+							usersId.add(pool.get(assigned).getUserId());
+						}
+						reservaGrupal.setUserId(usersId);
+						reservaGrupals.add(reservaGrupal);
+					}
+					reservaGrupals.forEach(reservaGrupal -> reservaGrupal.setFecha(this.getFormattedDate()));
+					while(assigned < num_com) {
+						for (ReservaGrupal reservaGrupal: reservaGrupals) {
+							int capacidad = configService.getCapacidadByIdMesa(reservaGrupal.getIdMesa());
+							if (assigned < num_com) {
+								while (reservaGrupal.getUserId().size() < capacidad) {
+									ArrayList<String> usersId = reservaGrupal.getUserId();
+									usersId.add(pool.get(assigned).getUserId());
+									reservaGrupal.setUserId(usersId);
+									assigned++;
+								}
+							}
+						}
+					}
+
 
 					//Cuando usuarios son mayores que la capacidad, voy llenando mesa a mesa
 					// if (usuarios.size() >= capacidad) {
@@ -118,8 +142,9 @@ public class AssignService {
 			//log.info("Fin proceso de asignación");
 	}
 
-	private void minimunInsertion() {
-
+	private String getFormattedDate() {
+		Date now = new Date();
+		return (1900 + now.getYear()) + "/" + (1 + now.getMonth()) + "/" + now.getDate();
 	}
 
 	public InfoTable readInfoTable() {
